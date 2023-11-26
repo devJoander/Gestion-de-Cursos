@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.excepciones.Mensaje;
-import com.example.demo.security.emuns.RolNombre;
 import com.example.demo.security.entities.Rol;
 import com.example.demo.security.service.RolService;
 import java.util.List;
@@ -42,9 +41,9 @@ public class RolController {
     @PostMapping("create")
     public ResponseEntity<?> crear(@Valid @RequestBody Rol rol) {
         try {
-            String nombre = rol.getRolNombre().toString();
-            RolNombre rolNombre = RolNombre.valueOf(nombre);
-            Rol rolCreado = rolService.crearRol(rolNombre, rol.getEstado());
+           // String nombre = rol.getRolNombre().toString();
+            //RolNombre rolNombre = RolNombre.valueOf(nombre);
+            Rol rolCreado = rolService.crearRol(rol.getRolNombre(), rol.getEstado());
             return new ResponseEntity<>(rolCreado, HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.NOT_FOUND);

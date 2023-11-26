@@ -1,7 +1,6 @@
 package com.example.demo.security.service;
 
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,10 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.example.demo.security.dto.LoginDto;
 import com.example.demo.security.entities.Jwt;
-import com.example.demo.security.entities.Usuario;
 import com.example.demo.security.jwt.JwtProvider;
 
 @Service

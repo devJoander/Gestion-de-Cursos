@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,8 @@ public class UsuarioController {
   @Autowired
   UsuarioService usuarioService;
 
-  // @PreAuthorize("hasRole('ADMIN')")
-   
+
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @GetMapping("/{usuarioId}")
   public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer usuarioId) {
     try {
@@ -40,6 +41,7 @@ public class UsuarioController {
     }
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @GetMapping("todos")
   public ResponseEntity<?> obtenerTodosLosUsuarios() {
     try {
@@ -52,6 +54,7 @@ public class UsuarioController {
     }
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @PostMapping("create")
   public ResponseEntity<?> insertarUsuario(@Valid @RequestBody Usuario usuario) {
     try {
@@ -64,6 +67,7 @@ public class UsuarioController {
     }
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @DeleteMapping("eliminar/{usuarioId}")
   public ResponseEntity<?> eliminarUsuario(@PathVariable Integer usuarioId) {
     try {
@@ -76,6 +80,7 @@ public class UsuarioController {
     }
   }
 
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @PutMapping("actualizar/{id}")
   public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
     try {

@@ -3,8 +3,6 @@ package com.example.demo.security.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.demo.security.emuns.RolNombre;
 import com.example.demo.security.entities.Rol;
 import com.example.demo.security.repository.RolRepository;
 import java.util.List;
@@ -58,7 +56,7 @@ public class RolService {
         }
     }
 
-    public Rol crearRol(RolNombre nombre, String estado) {
+    public Rol crearRol(String nombre, String estado) {
         try {
  
             if (nombre == null) {

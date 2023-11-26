@@ -20,27 +20,27 @@ $$ LANGUAGE plpgsql;
 -----------ROLES
 
 -- INSERTAR ROLES
-DROP FUNCTION IF EXISTS crear_rol(RolNombre, VARCHAR);
-----
--- Eliminar el tipo ENUM si existe
-DROP TYPE IF EXISTS RolNombre;
+-- DROP FUNCTION IF EXISTS crear_rol(RolNombre, VARCHAR);
+-- ----
+-- -- Eliminar el tipo ENUM si existe
+-- DROP TYPE IF EXISTS RolNombre;
 
 -- Crear el nuevo tipo ENUM
-CREATE TYPE RolNombre AS ENUM (
-    'ROLE_ADMIN',
-    'ROLE_CREADOR',
-    'ROLE_CONSUMIDOR'
-);
+-- CREATE TYPE RolNombre AS ENUM (
+--     'ROLE_ADMIN',
+--     'ROLE_CREADOR',
+--     'ROLE_CONSUMIDOR'
+-- );
 
-INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
-VALUES 
-  ('ROLE_ADMIN', 'A', NOW(), NOW()),
-  ('ROLE_CREADOR', 'A', NOW(), NOW()),
-  ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
+-- INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+-- VALUES 
+--   ('ROLE_ADMIN', 'A', NOW(), NOW()),
+--   ('ROLE_CREADOR', 'A', NOW(), NOW()),
+--   ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
 
 
 CREATE OR REPLACE FUNCTION crear_rol(
-    p_nombre RolNombre,
+    p_nombre VARCHAR,
     p_estado VARCHAR
 ) RETURNS rol AS $$
 DECLARE
