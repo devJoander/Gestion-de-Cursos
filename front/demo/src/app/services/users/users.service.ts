@@ -10,11 +10,28 @@ import { user } from 'src/app/models/users/user';
 
 export class UsersService {
 
-  usuarioURL = environment.usuarioURL;
-  authURL = environment.authURL;
+  userUri = environment.userUri;
+  authUri = environment.authUri;
+  
   constructor(private httpClient: HttpClient) { }
 
   public getAllUsers(): Observable<user[]> {
-    return this.httpClient.get<user[]>(this.usuarioURL + 'todos');
+    return this.httpClient.get<user[]>(this.userUri + 'todos');
+  }
+
+  public getUserById(id: number): Observable<user> {
+    return this.httpClient.get<user>(this.userUri + `${id}`);
+  }
+
+  public newUser(user: user): Observable<user>{
+    return this.httpClient.post<user>(this.userUri + 'create', user);
+  }
+  
+  public updtadeUser(id: number, user: user): Observable<user>{
+    return this.httpClient.put<user>(this.userUri + `actualizar/${id}`, user);
+  }
+
+  public deleteUser(id: number): Observable<user>{
+    return this.httpClient.delete<user>(this.userUri + `eliminar/${id}`);
   }
 }
