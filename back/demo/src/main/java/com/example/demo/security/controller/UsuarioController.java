@@ -28,7 +28,7 @@ public class UsuarioController {
   UsuarioService usuarioService;
 
 
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @GetMapping("/{usuarioId}")
   public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer usuarioId) {
     try {
@@ -41,7 +41,7 @@ public class UsuarioController {
     }
   }
 
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @GetMapping("todos")
   public ResponseEntity<?> obtenerTodosLosUsuarios() {
     try {
@@ -54,7 +54,7 @@ public class UsuarioController {
     }
   }
 
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @PostMapping("create")
   public ResponseEntity<?> insertarUsuario(@Valid @RequestBody Usuario usuario) {
     try {
@@ -67,7 +67,7 @@ public class UsuarioController {
     }
   }
 
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @DeleteMapping("eliminar/{usuarioId}")
   public ResponseEntity<?> eliminarUsuario(@PathVariable Integer usuarioId) {
     try {
@@ -80,7 +80,7 @@ public class UsuarioController {
     }
   }
 
-  @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
   @PutMapping("actualizar/{id}")
   public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
     try {
