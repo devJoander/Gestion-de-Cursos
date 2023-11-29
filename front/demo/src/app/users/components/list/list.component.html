@@ -1,8 +1,9 @@
 <app-nav></app-nav>
 <div class="container-fluid">
-  <button type="button" (click)="cleanInputs()" (click)="enableInputs()" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
+  <button type="button" (click)="xd()" (click)="cleanInputs()" (click)="enableInputs()" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
 </div>
-  <div class="container-fluid">
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
       <table class="table table-striped">
@@ -24,89 +25,110 @@
             <td>{{ u.email }}</td>
             <td>{{ u.roles[0].rolNombre }}</td>
             <td>
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="getUserById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <button type="button" class="btn btn-warning"><i class="fa-solid fa-pen" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="updateUser(u.id)"></i></button>
-              <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getUserById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getUserByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
-        </tbody>  
+        </tbody>
       </table>
     </div>
   </div>
-</div> 
- 
- 
+</div>
+
+
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">User</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">{{ isUpdateMode ? 'Update User' : 'New User' }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form [formGroup]="userForm">
-          <div class="row">
+          <label *ngIf="showForm" for="lblMessageDelete" class="form-label">¿Deseas eliminar este registro?</label>
+
+          <div *ngIf="!showForm" class="row">
 
             <div class="col-md-6">
               <div class="mb-3">
                 <label for="exampleInputNombre" class="form-label">Name</label>
-                <input type="text" formControlName="nombre" [readonly]="readonlyFields.nombre" class="form-control" id="exampleInputNombre" aria-describedby="nombreHelp">
-                <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['required']" class="alert alert-danger">The name is required</div>
+                <input type="text" formControlName="nombre" [readonly]="readonlyFields.nombre" class="form-control"
+                  id="exampleInputNombre" aria-describedby="nombreHelp">
+                <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['required']"
+                  class="alert alert-danger">The name is required</div>
               </div>
-              
+
             </div>
             <div class="col-md-6">
               <div class="mb-3">
                 <label for="exampleInputApellido" class="form-label">LastName</label>
-                <input type="text" formControlName="apellido" [readonly]="readonlyFields.apellido" class="form-control" id="exampleInputApellido" aria-describedby="apellidoHelp">
-                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['required']" class="alert alert-danger">The apellido is required</div>
+                <input type="text" formControlName="apellido" [readonly]="readonlyFields.apellido" class="form-control"
+                  id="exampleInputApellido" aria-describedby="apellidoHelp">
+                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['required']"
+                  class="alert alert-danger">The apellido is required</div>
               </div>
             </div>
             <div class="col-md-12">
 
               <div class="mb-3">
                 <label for="exampleInputEmail" class="form-label">Email address</label>
-                <input type="email" formControlName="email" [readonly]="readonlyFields.email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp">
-                <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']" class="alert alert-danger">The email is required</div>
-              </div>        
-            </div>
-
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label for="exampleInputPassword" class="form-label">Password</label>
-                <input type="password" formControlName="password" [readonly]="readonlyFields.password" class="form-control" id="exampleInputPassword">
-                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']" class="alert alert-danger">The pass is required</div>
+                <input type="email" formControlName="email" [readonly]="readonlyFields.email" class="form-control"
+                  id="exampleInputEmail" aria-describedby="emailHelp">
+                <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
+                  class="alert alert-danger">The email is required</div>
               </div>
             </div>
+
+            <div class="col-md-12">
+              <div class="mb-3">
+                <label for="exampleInputPassword" class="form-label">Password</label>
+                <input type="password" formControlName="password" [readonly]="readonlyFields.password"
+                  class="form-control" id="exampleInputPassword">
+                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']"
+                  class="alert alert-danger">The pass is required</div>
+              </div>
+            </div>
+
 
             <div class="col-md-6">
               <div class="mb-3">
                 <label for="exampleInputRol" class="form-label">Rol</label>
-                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="rol" aria-label="Default select example">
-                  <option selected>Selecciona un rol</option>
-                  <option *ngFor="let rol of rolesList" [value]="rol">{{ rol.rolNombre }}</option>
+                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles" >
+                  <option *ngFor="let rol of rolesList" [value]="rol.rolNombre">{{ rol.rolNombre }}</option>
                 </select>
               </div>
             </div>
             
-            <div class="col-md-12">
+
+            <div class="col-md-6">
+
               <div class="mb-3">
                 <label for="exampleInputEstado" class="form-label">Status</label>
-                <select formControlName="estado" [attr.disabled]="readonlyFields.estado ? true : null" class="form-select" aria-label="Select estado">
+                <select formControlName="estado" [attr.disabled]="readonlyFields.estado ? true : null"
+                  class="form-select" aria-label="Select estado">
                   <option value="A">Activo</option>
                   <option value="I">Inactivo</option>
                 </select>
               </div>
             </div>
-            
+
           </div>
-         </form>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="btnSave" class="btn btn-primary"  *ngIf="!isUpdateMode" (click)="saveUser()">Save</button>
-        <button id="btnUpdate" type="button" class="btn btn-primary"  *ngIf="isUpdateMode" (click)="saveUser()">Update</button>
+        <button *ngIf="isCreateMode" id="btnSave" type="button" class="btn btn-primary"
+          (click)="saveUser()">Save</button>
+        <button *ngIf="isUpdateMode" id="btnUpdate" type="button" class="btn btn-warning"
+          (click)="updateUser()">Update</button>
+        <button *ngIf="isDeleteMode" id="btnDelete" type="button" class="btn btn-danger"
+        (click)="deleteUser()">Delete</button>
       </div>
     </div>
   </div>
