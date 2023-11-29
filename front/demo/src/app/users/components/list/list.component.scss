@@ -1,3 +1,15 @@
-.container-fluid{
+.container-fluid {
     margin-top: 1vh;
+}
+
+table {
+    width: 100%;
+}
+
+th,
+td {
+    text-align: center;
+    width: 5vh;
+    word-break: break-word;
+    vertical-align: middle;
 }

@@ -6,7 +6,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-striped">
+      <table class="table table-bordered">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -25,12 +25,12 @@
             <td>{{ u.email }}</td>
             <td>{{ u.roles[0].rolNombre }}</td>
             <td>
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              <button type="button" class="btn btn-success  me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getUserById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              <button type="button" class="btn btn-warning  me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getUserByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
-              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
+              <button type="button" class="btn btn-danger  me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -99,13 +99,11 @@
             <div class="col-md-6">
               <div class="mb-3">
                 <label for="exampleInputRol" class="form-label">Rol</label>
-                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles"
-                  aria-label="Default select example" multiple>
-                  <option *ngFor="let rol of rolesList" [ngValue]="rol">{{ rol.rolNombre }}</option>
+                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles" aria-label="Default select example" multiple>
+                  <option *ngFor="let rol of rolesList" [value]="rol">{{ rol.rolNombre }}</option>
                 </select>
               </div>
-            </div>
-
+            </div>                  
 
             <div class="col-md-6">
 
@@ -124,9 +122,12 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="btnSave" type="button" class="btn btn-primary" (click)="saveUser()">Save</button>
-        <button id="btnUpdate" type="button" class="btn btn-warning" (click)="updateUser()">Update</button>
-        <button id="btnDelete" type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
+        <button  id="btnSave" type="button" class="btn btn-primary"
+          (click)="saveUser()">Save</button>
+        <button  id="btnUpdate" type="button" class="btn btn-warning"
+          (click)="updateUser()">Update</button>
+        <button  id="btnDelete" type="button" class="btn btn-danger"
+        (click)="deleteUser()">Delete</button>
       </div>
     </div>
   </div>
