@@ -1,6 +1,6 @@
 <app-nav></app-nav>
 <div class="container-fluid">
-  <button type="button" (click)="xd()" (click)="cleanInputs()" (click)="enableInputs()" class="btn btn-primary" data-bs-toggle="modal"
+  <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
 </div>
 <div class="container-fluid">
@@ -30,7 +30,7 @@
               <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getUserByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
               <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-              (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
+                (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -99,12 +99,13 @@
             <div class="col-md-6">
               <div class="mb-3">
                 <label for="exampleInputRol" class="form-label">Rol</label>
-                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles" >
-                  <option *ngFor="let rol of rolesList" [value]="rol.rolNombre">{{ rol.rolNombre }}</option>
+                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles"
+                  aria-label="Default select example" multiple>
+                  <option *ngFor="let rol of rolesList" [ngValue]="rol">{{ rol.rolNombre }}</option>
                 </select>
               </div>
             </div>
-            
+
 
             <div class="col-md-6">
 
@@ -123,12 +124,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button *ngIf="isCreateMode" id="btnSave" type="button" class="btn btn-primary"
-          (click)="saveUser()">Save</button>
-        <button *ngIf="isUpdateMode" id="btnUpdate" type="button" class="btn btn-warning"
-          (click)="updateUser()">Update</button>
-        <button *ngIf="isDeleteMode" id="btnDelete" type="button" class="btn btn-danger"
-        (click)="deleteUser()">Delete</button>
+        <button id="btnSave" type="button" class="btn btn-primary" (click)="saveUser()">Save</button>
+        <button id="btnUpdate" type="button" class="btn btn-warning" (click)="updateUser()">Update</button>
+        <button id="btnDelete" type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
       </div>
     </div>
   </div>

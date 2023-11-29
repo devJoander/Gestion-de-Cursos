@@ -50,6 +50,7 @@ export class ListComponent {
     this.RolesService.getAllRoles().subscribe({
       next: (data) => {
         this.rolesList = data;
+        console.log(this.rolesList)
       },
       error: (err) => {
         console.error('Error fetching roles:', err);
@@ -59,16 +60,17 @@ export class ListComponent {
     });
   }
 
-  deleteUser(){
+  deleteUser() {
     const userId = this.userById.id;
     this.UsersService.deleteUser(userId).subscribe({
-      next:(value) => {
+      next: (value) => {
+        this.getAllUsers();
       },
       error: (err) => {
         console.error('Error fetching user:', err);
       },
       complete() {
-          
+
       },
     })
   }
@@ -98,7 +100,14 @@ export class ListComponent {
           password: this.userById.password,
           roles: this.userById.roles[0].rolNombre,
         });
-        this.desableInputs();
+        this.readonlyFields = {
+          nombre: true,
+          apellido: true,
+          email: true,
+          estado: true,
+          password: true,
+          roles: true,
+        };
         this.isUpdateMode = false;
         this.isDeleteMode = false;
         this.isCreateMode = false;
@@ -118,7 +127,7 @@ export class ListComponent {
       next: (data) => {
         this.userById = data;
         console.log(this.userById.roles[0].rolNombre);
-        const rolesArray = this.userById.roles ? [this.userById.roles[0].rolNombre] : [];
+        const rolesArray = this.userById.roles.map(rol => rol.rolNombre);
         this.userForm.setValue({
           nombre: this.userById.nombre,
           apellido: this.userById.apellido,
@@ -128,11 +137,19 @@ export class ListComponent {
           // roles: this.userById.roles[0].rolNombre,
           roles: rolesArray,
         });
+        console.log('Roles Array:', rolesArray);
         this.isUpdateMode = true;
         this.isDeleteMode = false;
         this.isCreateMode = false;
         this.showForm = true;
-        this.enableInputs();
+        this.readonlyFields = {
+          nombre: false,
+          apellido: false,
+          email: false,
+          estado: false,
+          password: false,
+          roles: false,
+        };
         // this.userForm.controls['name'].setValue(this.user.nombre);
       },
       error: (err) => {
@@ -161,29 +178,40 @@ export class ListComponent {
       },
     });
   }
+
   saveUser() {
     const newUser = this.userForm.value;
+    console.log(newUser)
     newUser.roles = newUser.roles || [];
-    this.UsersService.newUser(this.userForm.value).subscribe({
+    console.log(newUser.roles);
+
+    this.UsersService.newUser(newUser).subscribe({
       next: (data) => {
+        console.log(data);
         this.getAllUsers();
+        this.userForm.reset();
       },
-      error(err) { },
-      complete() { },
-    })
+      error: (err) => {
+        console.error('Error creating user:', err);
+      },
+      complete: () => {
+        console.log('Create user request completed');
+      },
+    });
   }
 
+
   updateUser() {
-    // Lógica para actualizar el usuario
     const userId = this.userById.id;
     const updatedUserData = this.userForm.value;
+    updatedUserData.roles = updatedUserData.roles || [];
     this.UsersService.updtadeUser(userId, updatedUserData).subscribe({
       next: (data) => {
         this.getAllUsers();
-        this.cleanInputs(); // Limpiar el formulario después de la actualización
+        this.userForm.reset();        // Limpiar el formulario después de la actualización
       },
       error(err) {
-        
+
       },
       complete() {
 
@@ -193,43 +221,22 @@ export class ListComponent {
 
   initForm(user?: user): FormGroup {
     return this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
-      apellido: ['', [Validators.required, Validators.minLength(4)]],
-      email: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(3)]],
-      estado: ['', [Validators.required]],
+      nombre: [user?.nombre || '', [Validators.required, Validators.minLength(3)]],
+      apellido: [user?.apellido || '', [Validators.required, Validators.minLength(4)]],
+      email: [user?.email || '', [Validators.required, Validators.minLength(3)]],
+      password: [user?.password || '', [Validators.required, Validators.minLength(3)]],
+      estado: [user?.estado || '', [Validators.required]],
       roles: this.fb.array(user?.roles || []),
     });
   }
 
-  desableInputs(): void {
-    this.readonlyFields = {
-      nombre: true,
-      apellido: true,
-      email: true,
-      estado: true,
-      password: true,
-      roles: true,
-    };
-  }
-  enableInputs(): void {
-    this.readonlyFields = {
-      nombre: false,
-      apellido: false,
-      email: false,
-      estado: false,
-      password: false,
-      roles: false,
-    };
-  }
+
   cleanInputs(): void {
-    this.userForm.reset();
+    // this.userForm.reset();
+    // this.isUpdateMode = false;
+    // this.isDeleteMode = false;
+    // this.isCreateMode = true;
+    // this.showForm = true;
   }
 
-  xd(): void{
-    this.isUpdateMode = false;
-    this.isDeleteMode = false;
-    this.isCreateMode = true;
-    this.showForm = true;
-  }
 }
