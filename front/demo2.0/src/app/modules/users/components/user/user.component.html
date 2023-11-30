@@ -1,0 +1,147 @@
+<app-nav></app-nav>
+<div class="container-fluid">
+  <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users">
+            <th scope="row">{{ u.id }}</th>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.apellido }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.roles[0].rolNombre }}</td>
+            <td>
+              <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getUserById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getUserByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          {{ actionType === 'see' ? 'User Details' : (actionType === 'create' ? 'New User' : (actionType === 'update' ?
+          'Update User' : 'Delete User')) }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="actionType === 'delete'">
+          <label for="lblMessageDelete" class="form-label">¿Deseas eliminar este registro?</label>
+        </div>
+        <form *ngIf="actionType !== 'delete'" [formGroup]="userForm">
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="exampleInputNombre" class="form-label">Name</label>
+                <input type="text" formControlName="nombre" [readonly]="readonlyFields.nombre" class="form-control"
+                  id="exampleInputNombre" aria-describedby="nombreHelp">
+                <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['required']"
+                  class="alert alert-danger">The name is required</div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="exampleInputApellido" class="form-label">LastName</label>
+                <input type="text" formControlName="apellido" [readonly]="readonlyFields.apellido" class="form-control"
+                  id="exampleInputApellido" aria-describedby="apellidoHelp">
+                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['required']"
+                  class="alert alert-danger">The apellido is required</div>
+              </div>
+            </div>
+            <div class="col-md-12">
+
+              <div class="mb-3">
+                <label for="exampleInputEmail" class="form-label">Email address</label>
+                <input type="email" formControlName="email" [readonly]="readonlyFields.email" class="form-control"
+                  id="exampleInputEmail" aria-describedby="emailHelp">
+                <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
+                  class="alert alert-danger">The email is required</div>
+              </div>
+            </div>
+
+            <div class="col-md-12" *ngIf="actionType === 'create'">
+              <div class="mb-3">
+                <label for="exampleInputPassword" class="form-label">Password</label>
+                <input type="password" formControlName="password" [readonly]="readonlyFields.password"
+                  class="form-control" id="exampleInputPassword">
+                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']"
+                  class="alert alert-danger">The pass is required</div>
+              </div>
+            </div>
+
+
+            <div class="col-md-6" *ngIf="actionType !== 'update'">
+              <div class="mb-3">
+                <label for="exampleInputRol" class="form-label">Rol</label>
+                <select class="form-select" [attr.disabled]="readonlyFields.roles ? true : null" formControlName="roles"
+                  aria-label="Default select example" multiple>
+                  <option *ngFor="let rol of rolesList" [value]="rol">{{ rol.rolNombre }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+
+              <div class="mb-3">
+                <label for="exampleInputEstado" class="form-label">Status</label>
+                <select formControlName="estado" [attr.disabled]="readonlyFields.estado ? true : null"
+                  class="form-select" aria-label="Select estado">
+                  <option value="A">Activo</option>
+                  <option value="I">Inactivo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveUser()"
+          *ngIf="actionType === 'create'">Save</button>
+        <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateUser()"
+          *ngIf="actionType === 'update'">Update</button>
+        <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger" (click)="deleteUser()"
+          *ngIf="actionType === 'delete'">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+
+<!-- <script>
+  document.getElementById('miBoton').addEventListener('click', function () {
+    funcionUno();
+    funcionDos();
+  });
+</script> -->

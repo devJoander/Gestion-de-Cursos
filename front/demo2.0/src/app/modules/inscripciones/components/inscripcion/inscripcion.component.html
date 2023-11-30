@@ -1,0 +1,108 @@
+<app-nav></app-nav>
+<div class="container-fluid">
+    <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Consumidor</th>
+                        <th scope="col">Curso</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let u of inscripciones">
+                        <th scope="row">{{ u.id }}</th>
+                        <td>{{ u.consumidor.nombre }}</td>
+                        <td>{{ u.curso.nombre }}</td>
+                        <td>
+                            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop" (click)="getInscripcionById(u.id)"><i
+                                    class="fa-solid fa-magnifying-glass"></i></button>
+                            <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop" (click)="getInscripcionByIdForUpdate(u.id)"><i
+                                    class="fa-solid fa-pen"></i></button>
+                            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop" (click)="getInscripcionByIdForDelete(u.id)"><i
+                                    class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                    {{ actionType === 'see' ? 'Curso Details' : (actionType === 'create' ? 'New Curso' : (actionType ===
+                    'update' ?
+                    'Update Curso' : 'Delete Curso')) }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="actionType === 'delete'">
+                    <label for="lblMessageDelete" class="form-label">¿Deseas eliminar este registro?</label>
+                </div>
+                <form *ngIf="actionType !== 'delete'" [formGroup]="inscripcionForm">
+                    
+                    <div class="row">
+
+
+
+                        <div class="col-md-6" *ngIf="actionType !== 'update'">
+                            <div class="mb-3">
+                                <label for="exampleInputConsumidor" class="form-label">Consumidor</label>
+                                <select class="form-select" [attr.disabled]="readonlyFields.consumidor ? true : null"
+                                    formControlName="consumidor" aria-label="Default select example" multiple>
+                                    <option *ngFor="let us of users" [value]="us.id">{{ us.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6" *ngIf="actionType !== 'update'">
+                            <div class="mb-3">
+                                <label for="exampleInputCurso" class="form-label">Curso</label>
+                                <select class="form-select" [attr.disabled]="readonlyFields.curso ? true : null"
+                                    formControlName="curso" aria-label="Default select example" multiple>
+                                    <option *ngFor="let c of cursos" [value]="c.id">{{ c.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="newInscripcion()"
+                    *ngIf="actionType === 'create'">Save</button>
+                <button data-bs-dismiss="modal" type="button" class="btn btn-warning" (click)="suscribirseDeNuevo()"
+                    *ngIf="actionType === 'update'">Update</button>
+                <button data-bs-dismiss="modal" type="button" class="btn btn-danger" (click)="anularInscripcion()"
+                    *ngIf="actionType === 'delete'">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+
+<!-- <script>
+    document.getElementById('miBoton').addEventListener('click', function () {
+      funcionUno();
+      funcionDos();
+    });
+  </script> -->
