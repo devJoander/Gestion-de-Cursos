@@ -4,6 +4,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RolService } from 'src/app/services/rol/rol.service';
 import { roles } from 'src/app/models/roles/roles';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-list',
@@ -26,20 +27,21 @@ export class ListComponent {
     roles: false,
   };
 
-  roles: string[] = ["ROLE_CONSUMIDOR", "ROLE_CREADOR", "ROLE_ADMIN"];
-
   userForm!: FormGroup;
 
-  isUpdateMode = false;
-  isDeleteMode = false;
-  isCreateMode = false;
-  showForm = false;
+  actionType: 'create' | 'update' | 'delete' | 'see' = 'create';
+
+  setActionType(action: 'create' | 'update' | 'delete' | 'see') {
+    this.actionType = action;
+  }
 
   rolesList: roles[] = [];
+
   constructor(
     private UsersService: UsersService,
     private readonly fb: FormBuilder,
     private RolesService: RolService,
+    private toastr: ToastrService,
   ) {
 
   }
@@ -47,17 +49,17 @@ export class ListComponent {
   ngOnInit(): void {
     this.getAllUsers();
     this.userForm = this.initForm(this.userById);
-    this.RolesService.getAllRoles().subscribe({
-      next: (data) => {
-        this.rolesList = data;
-        console.log(this.rolesList)
-      },
-      error: (err) => {
-        console.error('Error fetching roles:', err);
-      },
-      complete() {
-      },
-    });
+    // this.RolesService.getAllRoles().subscribe({
+    //   next: (data) => {
+    //     this.rolesList = data;
+    //     console.log(this.rolesList)
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching roles:', err);
+    //   },
+    //   complete() {
+    //   },
+    // });
   }
 
   deleteUser() {
@@ -100,18 +102,8 @@ export class ListComponent {
           password: this.userById.password,
           roles: this.userById.roles[0].rolNombre,
         });
-        this.readonlyFields = {
-          nombre: true,
-          apellido: true,
-          email: true,
-          estado: true,
-          password: true,
-          roles: true,
-        };
-        this.isUpdateMode = false;
-        this.isDeleteMode = false;
-        this.isCreateMode = false;
-        this.showForm = true;
+        this.setActionType('see');
+        this.desableInputs();
         // this.userForm.controls['name'].setValue(this.user.nombre);
       },
       error: (err) => {
@@ -134,22 +126,11 @@ export class ListComponent {
           email: this.userById.email,
           estado: this.userById.estado,
           password: this.userById.password,
-          // roles: this.userById.roles[0].rolNombre,
-          roles: rolesArray,
+          roles: this.userById.roles,
+          //roles: rolesArray,
         });
-        console.log('Roles Array:', rolesArray);
-        this.isUpdateMode = true;
-        this.isDeleteMode = false;
-        this.isCreateMode = false;
-        this.showForm = true;
-        this.readonlyFields = {
-          nombre: false,
-          apellido: false,
-          email: false,
-          estado: false,
-          password: false,
-          roles: false,
-        };
+        this.setActionType('update');
+        this.enableInputs();
         // this.userForm.controls['name'].setValue(this.user.nombre);
       },
       error: (err) => {
@@ -165,10 +146,7 @@ export class ListComponent {
     this.UsersService.getUserById(id).subscribe({
       next: (data) => {
         this.userById = data;
-        this.isDeleteMode = true;
-        this.isCreateMode = false;
-        this.isUpdateMode = false;
-        this.showForm = false;
+        this.setActionType('delete');
       },
       error: (err) => {
         console.error('Error fetching user:', err);
@@ -184,7 +162,6 @@ export class ListComponent {
     console.log(newUser)
     newUser.roles = newUser.roles || [];
     console.log(newUser.roles);
-
     this.UsersService.newUser(newUser).subscribe({
       next: (data) => {
         console.log(data);
@@ -208,10 +185,10 @@ export class ListComponent {
     this.UsersService.updtadeUser(userId, updatedUserData).subscribe({
       next: (data) => {
         this.getAllUsers();
-        this.userForm.reset();        // Limpiar el formulario después de la actualización
+        this.userForm.reset();
       },
       error(err) {
-
+      
       },
       complete() {
 
@@ -226,17 +203,40 @@ export class ListComponent {
       email: [user?.email || '', [Validators.required, Validators.minLength(3)]],
       password: [user?.password || '', [Validators.required, Validators.minLength(3)]],
       estado: [user?.estado || '', [Validators.required]],
-      roles: this.fb.array(user?.roles || []),
+      // roles: [user?.roles ? user.roles[0]?.rolNombre : null, [Validators.required]],
+      //  roles: [user?.roles && user?.roles.length > 0 ? user?.roles[0].rolNombre : null, [Validators.required]],
+      //roles: [user?.roles?.[0] || null, [Validators.required]],
+      roles: [user?.roles[0]?.rolNombre || '', [Validators.required]]
     });
   }
 
 
   cleanInputs(): void {
-    // this.userForm.reset();
-    // this.isUpdateMode = false;
-    // this.isDeleteMode = false;
-    // this.isCreateMode = true;
-    // this.showForm = true;
+    this.userForm.reset();
+    this.setActionType('create');
+    this.enableInputs();
+  }
+
+  enableInputs(): void {
+    this.readonlyFields = {
+      nombre: false,
+      apellido: false,
+      email: false,
+      estado: false,
+      password: false,
+      roles: false,
+    };
+  }
+
+  desableInputs(): void {
+    this.readonlyFields = {
+      nombre: true,
+      apellido: true,
+      email: true,
+      estado: true,
+      password: true,
+      roles: true,
+    };
   }
 
 }

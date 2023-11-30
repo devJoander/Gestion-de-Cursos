@@ -4,5 +4,5 @@ export const environment = {
     authUri: 'http://localhost:8080/auth/',
     userUri: 'http://localhost:8080/usuarios/',
     rolUri: 'http://localhost:8080/roles/',
-  
+    cursoUri: 'http://localhost:8080/cursos/',
   };

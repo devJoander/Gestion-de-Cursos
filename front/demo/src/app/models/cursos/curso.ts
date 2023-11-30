@@ -1,9 +1,9 @@
 import { user } from "../users/user";
 
 export interface curso {
-    id? : number;
+    id : number;
     nombre: string;
-    creador: user[];
+    creador: user;
     estado: string;
     fechaCreacion: Date;
     fechaActualizacion: Date;

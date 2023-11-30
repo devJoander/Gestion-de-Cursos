@@ -6,9 +6,15 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./users/users.module').then(u => u.UsersModule)
   },
-  { path: '', 
-  loadChildren: () => import('./layout/layout.module').then(l => l.LayoutModule)
-}
+  {
+    path: 'a',
+    loadChildren: () => import('./cursos/cursos.module').then(c => c.CursosModule)
+  },
+
+  {
+    path: '*',
+    redirectTo: 'users/list',
+  },
 ];
 
 @NgModule({
