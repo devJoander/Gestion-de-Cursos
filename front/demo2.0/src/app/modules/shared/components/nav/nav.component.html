@@ -2,16 +2,19 @@
     <div class="container-fluid">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa-solid fa-house"></i> Home</a>
+          <a class="nav-link"  href="#"><i class="fa-solid fa-house"></i> Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/users/list" href="#"><i class="fa-solid fa-users"></i> Usuarios</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/roles/list" href="#"><i class="fa-solid fa-users"></i> Roles</a>
+        </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+          <a class="nav-link dropdown-toggle" routerLink="/cursos/list" data-bs-toggle="dropdown" href="#" role="button"
             aria-expanded="false"><i class="fa-solid fa-book"></i> Cursos</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Incripciones</a></li>
+            <li><a class="dropdown-item" routerLink="/inscripciones/list" href="#">Incripciones</a></li>
           </ul>
         </li>
       </ul>

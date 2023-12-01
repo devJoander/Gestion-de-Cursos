@@ -32,11 +32,11 @@ $$ LANGUAGE plpgsql;
 --     'ROLE_CONSUMIDOR'
 -- );
 
--- INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
--- VALUES 
---   ('ROLE_ADMIN', 'A', NOW(), NOW()),
---   ('ROLE_CREADOR', 'A', NOW(), NOW()),
---   ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
+INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+VALUES 
+  ('ROLE_ADMIN', 'A', NOW(), NOW()),
+  ('ROLE_CREADOR', 'A', NOW(), NOW()),
+  ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
 
 
 CREATE OR REPLACE FUNCTION crear_rol(
@@ -92,6 +92,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
  
+------------ obtener_usuario_por_id
+CREATE OR REPLACE FUNCTION obtener_rol_por_id(p_rol_id INT) 
+RETURNS rol AS $$
+DECLARE
+    rol_encontrado rol;
+BEGIN
+    SELECT * INTO rol_encontrado FROM rol WHERE id = p_rol_id;
+    RETURN rol_encontrado;
+END;
+$$ LANGUAGE plpgsql;
+
+
 --------------------------USUARIOS---------------------
 --- crear usuario
 CREATE OR REPLACE FUNCTION crear_usuario_con_rol(
@@ -344,7 +356,9 @@ CREATE OR REPLACE FUNCTION get_all_inscripciones()
 RETURNS SETOF inscripcion_curso AS $$
 BEGIN
     RETURN QUERY
-    SELECT * FROM inscripcion_curso WHERE activo = true;
+    SELECT * FROM inscripcion_curso;
+    -- SELECT * FROM inscripcion_curso WHERE activo = true;
+
 END;
 $$ LANGUAGE plpgsql;
 -- suscribirse_nuevamente

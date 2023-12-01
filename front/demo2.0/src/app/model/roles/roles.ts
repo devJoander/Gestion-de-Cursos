@@ -1,5 +1,5 @@
 export interface roles {
-    id? : number;
+    id : number;
     rolNombre: string;
     fechaCreacion: Date;
     fechaActualizacion: Date;

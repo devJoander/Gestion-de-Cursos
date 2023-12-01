@@ -184,22 +184,7 @@ export class CursoComponent {
     );
   }
 
-  // suscripcionDeUnCurso(){
-  //   const newSuscripcion = this.cursoForm.value;
-  //     this.usersService.getUserById(newSuscripcion.creador).subscribe(
-  //     (user)=>{
-  //       newSuscripcion.consumidor = { id: user.id };
-  //       this.getCursoById(newSuscripcion.curso).subscribe(
-  //         (user)=>{
-
-  //         }
-  //       )
-  //     },
-  //     (error) => {
-  //       console.error('Error al obtener el usuario:', error);
-  //     }
-  //   )
-  // }
+  
 
   updateCurso() {
     const cursoId = this.cursoById.id;
@@ -227,13 +212,6 @@ export class CursoComponent {
     );
   }
 
-  // handleComplete(): void{
-  //   this.toastr.show('Completado', 'Fail', {
-  //     timeOut: 2000,
-  //     positionClass: 'toast-top-center',
-  //   });
-
- // }
 
   initForm(curso?: curso): FormGroup  {
     return this.fb.group({

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.security.entities.Rol;
+import com.example.demo.security.entities.Rol;
 import com.example.demo.security.repository.RolRepository;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,21 @@ public class RolService {
     public Optional<Rol> getByRolNombre(String rolNombre) {
         try {
             return rolRepository.findByRolNombre(rolNombre);
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException(ex.getMessage().toString(), ex.getCause());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error " + e.getMessage().toString(), e.getCause());
+        }
+    }
+
+      public Rol obtenerRolPorId(int RolId) {
+        try {
+            Rol Rol = rolRepository.obtenerRolPorId(RolId);
+            if (Rol == null) {
+                throw new IllegalArgumentException("El Rol con el id: " + RolId + " no existe");
+            }
+            return Rol;
+            
         } catch (RuntimeException ex) {
             throw new IllegalArgumentException(ex.getMessage().toString(), ex.getCause());
         } catch (Exception e) {

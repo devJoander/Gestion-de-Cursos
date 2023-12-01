@@ -14,7 +14,6 @@ import { inscripcion } from 'src/app/model/inscripcion/inscripcion';
 export class UserComponent {
 
   userById!: user;
-  
 
   users: user[] = [];
 

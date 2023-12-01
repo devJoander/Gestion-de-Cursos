@@ -27,8 +27,8 @@ export class InscripcionService {
     return this.httpClient.post<inscripcion>(this.insUri + 'suscribir', inscripciones);
   }
   
-  public updtadeInscripcion(id: number, inscripciones: inscripcion): Observable<inscripcion>{
-    return this.httpClient.put<inscripcion>(this.insUri + `actualizar/${id}`, inscripciones);
+  public suscribirseDeNuevo(id: number, inscripciones: inscripcion): Observable<inscripcion>{
+    return this.httpClient.put<inscripcion>(this.insUri + `again/${id}`, inscripciones);
   }
 
   public cancelInscripcion(id: number): Observable<inscripcion>{

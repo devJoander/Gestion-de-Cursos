@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.security.entities.Rol;
   
-
 @Repository
 public interface RolRepository extends JpaRepository<Rol, Integer> {
 
@@ -17,6 +16,8 @@ public interface RolRepository extends JpaRepository<Rol, Integer> {
     boolean existsByRolNombre(String rolNombre);
     boolean existsById(Integer id);
 
+    @Query(value = "SELECT * FROM obtener_rol_por_id(:p_rol_id)", nativeQuery = true)
+    public Rol obtenerRolPorId(@Param("p_rol_id") Integer rolId);
 
     @Query(value = "SELECT * FROM get_All_Roles();", nativeQuery = true)
     List<Rol> getAllRoles();

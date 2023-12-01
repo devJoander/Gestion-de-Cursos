@@ -13,6 +13,7 @@ import { UsersService } from 'src/app/services/users/users.service';
   styleUrls: ['./inscripcion.component.scss']
 })
 export class InscripcionComponent {
+
   inscripcionById!: inscripcion;
 
   inscripciones: inscripcion[] = [];
@@ -107,10 +108,31 @@ export class InscripcionComponent {
 
 
   suscribirseDeNuevo() {
+    const inscripcionId = this.inscripcionById.id;
+    const updatedInscripcionData = this.inscripcionForm.value;
 
+    this.inscripcionService.suscribirseDeNuevo(inscripcionId, updatedInscripcionData).subscribe({
+      next:(value)=>{
+        this.getAllInscripciones();
+      },error(err) {
+          
+      },complete() {
+          
+      },
+    })
   }
 
   anularInscripcion() {
+    const inscripcionId = this.inscripcionById.id;
+    this.inscripcionService.cancelInscripcion(inscripcionId).subscribe({
+      next:(value)=> {
+          this.getAllInscripciones();
+      },error(err) {
+          
+      },complete() {
+          
+      },
+    })
 
   }
   getAllUsers() {
@@ -139,16 +161,25 @@ export class InscripcionComponent {
       },
     })
   }
+ 
+  getInscripcionByIdForSuscribirseDeNuevo(id: number) { 
+    this.inscripcionService.getInscripcionById(id).subscribe({
+      next:(value) => {
+        this.inscripcionById = value;
+        this.setActionType('update');
+      },error(err) {
+          
+      },complete() {
+          
+      },
+    })
+  }
 
-  getInscripcionById(id: number) { 
+  getInscripcionByIdForDelete(id: number) {
     this.inscripcionService.getInscripcionById(id).subscribe({
       next:(value)=> {
-        this.inscripcionForm.setValue({
-          consumidor: this.inscripcionById.consumidor.nombre,
-          curso: this.inscripcionById.curso.nombre,
-        });
-        this.setActionType('see');
-        this.desableInputs();
+        this.inscripcionById = value;
+        this.setActionType('delete');
       },
       error(err) {
           
@@ -157,11 +188,7 @@ export class InscripcionComponent {
           
       },
     })
-  }
-
-  getInscripcionByIdForUpdate(id: number) { }
-
-  getInscripcionByIdForDelete(id: number) { }
+   }
 
   initForm(inscripcion: inscripcion): FormGroup {
     return this.fb.group({

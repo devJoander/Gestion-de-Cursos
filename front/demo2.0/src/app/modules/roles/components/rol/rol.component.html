@@ -1,0 +1,103 @@
+<app-nav></app-nav>
+<div class="container-fluid">
+  <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of rolesList">
+            <th scope="row">{{ u.id }}</th>
+            <td>{{ u.rolNombre }}</td>
+            <td>{{ u.estado ? 'Activo' : 'Inactivo'}}</td>
+            <td>
+              <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getRolById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
+              <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getRolByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
+              <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                (click)="getRolByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">
+          {{ actionType === 'see' ? 'Rol Details' : (actionType === 'create' ? 'New Rol' : (actionType === 'update' ?
+          'Update Rol' : 'Delete Rol')) }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="actionType === 'delete'">
+          <label for="lblMessageDelete" class="form-label">¿Deseas eliminar este registro?</label>
+        </div>
+        <form *ngIf="actionType !== 'delete'" [formGroup]="rolForm">
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="exampleInputrolNombre" class="form-label">Name</label>
+                <input type="text" formControlName="rolNombre" [readonly]="readonlyFields.rolNombre" class="form-control"
+                  id="exampleInputrolNombre" aria-describedby="rolNombreHelp">
+                <div *ngIf="rolForm.get('rolNombre')?.touched && rolForm.get('rolNombre')?.errors?.['required']"
+                  class="alert alert-danger">The name is required</div>
+              </div>
+
+            </div>
+           
+            <div class="col-md-6">
+
+              <div class="mb-3">
+                <label for="exampleInputEstado" class="form-label">Status</label>
+                <select formControlName="estado" [attr.disabled]="readonlyFields.estado ? true : null"
+                  class="form-select" aria-label="Select estado">
+                  <option value="A">Activo</option>
+                  <option value="I">Inactivo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveRol()"
+          *ngIf="actionType === 'create'">Save</button>
+        <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateRol()"
+          *ngIf="actionType === 'update'">Update</button>
+        <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger" (click)="deleteRol()"
+          *ngIf="actionType === 'delete'">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+
+<!-- <script>
+  document.getElementById('miBoton').addEventListener('click', function () {
+    funcionUno();
+    funcionDos();
+  });
+</script> -->

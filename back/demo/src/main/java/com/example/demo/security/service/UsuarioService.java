@@ -31,11 +31,18 @@ public class UsuarioService {
  
     /////////////////////////////////
     public Usuario obtenerUsuarioPorId(int usuarioId) {
-        Usuario usuario = usuarioRepository.obtenerUsuarioPorId(usuarioId);
-        if (usuario == null) {
-            throw new IllegalArgumentException("El usuario con el id: " + usuarioId + " no existe");
+        try {
+            Usuario usuario = usuarioRepository.obtenerUsuarioPorId(usuarioId);
+            if (usuario == null) {
+                throw new IllegalArgumentException("El usuario con el id: " + usuarioId + " no existe");
+            }
+            return usuario;
+            
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException(ex.getMessage().toString(), ex.getCause());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error " + e.getMessage().toString(), e.getCause());
         }
-        return usuario;
     }
 
     public List<Usuario> obtenerTodosLosUsuarios() {
