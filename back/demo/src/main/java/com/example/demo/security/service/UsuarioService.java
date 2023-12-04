@@ -65,7 +65,7 @@ public class UsuarioService {
             if (!usuarioRepository.existsById(id)) {
                 throw new IllegalArgumentException("El id no existe.");
             }
-               password = passwordEncoder.encode(password);
+            //    password = passwordEncoder.encode(password);
     
             return usuarioRepository.actualizarUsuario(id, nombre, apellido, email, password, estado);
         } catch (RuntimeException ex) {

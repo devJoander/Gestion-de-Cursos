@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { roles } from 'src/app/model/roles/roles';
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { TokenService } from 'src/app/services/token/token.service';
+import { NgxToastService } from 'ngx-toast-notifier';
 
 @Component({
   selector: 'app-rol',
@@ -35,8 +36,9 @@ export class RolComponent {
     private readonly fb: FormBuilder,
     private rolesService: RolesService,
     private tokenService: TokenService,
+    private ngxToastService: NgxToastService,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isAdmin = this.tokenService.isAdmin();
@@ -48,11 +50,12 @@ export class RolComponent {
   deleteRol() {
     const RolId = this.rolById.id;
     this.rolesService.deleteRol(RolId).subscribe({
-      next: (value) => {
+      next: (data) => {
         this.getAllRoles();
+        this.ngxToastService.onSuccess('Success!', `El rol ${data.rolNombre} fué eliminado exitosamente`);
       },
       error: (err) => {
-        console.error('Error fetching Rol:', err);
+        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el rol: ' + err.message);
       },
       complete() {
 
@@ -66,7 +69,6 @@ export class RolComponent {
         this.rolesList = value;
       },
       error: (err) => {
-        console.error('Error fetching Rol:', err);
       },
       complete: () => {
       },
@@ -92,7 +94,7 @@ export class RolComponent {
       },
     });
   }
-  
+
   getRolByIdForUpdate(id: number) {
     this.rolesService.getRolById(id).subscribe({
       next: (data) => {
@@ -138,9 +140,10 @@ export class RolComponent {
         console.log(data);
         this.getAllRoles();
         this.rolForm.reset();
+        this.ngxToastService.onSuccess('Success!', `El rol ${data.rolNombre} fué creado exitosamente`);
       },
       error: (err) => {
-        console.error('Error creating Rol:', err);
+        this.ngxToastService.onWarning('Warning!', 'No se pudo cear el rol: ' + err.message);
       },
       complete: () => {
         console.log('Create Rol request completed');
@@ -155,9 +158,10 @@ export class RolComponent {
       next: (data) => {
         this.getAllRoles();
         this.rolForm.reset();
+        this.ngxToastService.onSuccess('Success!', `El rol ${data.rolNombre} fué actualizado exitosamente`);
       },
-      error(err) {
-      
+      error: (err) => {
+        this.ngxToastService.onWarning('Warning!', 'No se pudo actualizar el rol: ' + err.message);
       },
       complete() {
 

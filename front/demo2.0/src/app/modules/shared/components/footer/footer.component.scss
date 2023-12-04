@@ -2,14 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-}
-
-
-h2 {
-    padding: 25px 0;
-    text-align: center;
-    color: #fff;
-    background: #7c8490;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 footer {
@@ -57,6 +50,11 @@ ul.social-network li {
 .social-network a.icoFacebook:hover {
     background-color: #3B5998;
 }
+
+.social-network a.icoLinkedin:hover {
+    background-color: #3B5998;
+}
+
 
 .social-network a.icoLinkedin:hover {
     background-color: #007bb7;

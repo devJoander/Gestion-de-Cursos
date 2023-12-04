@@ -13,7 +13,7 @@
                         <th scope="col">Consumidor</th>
                         <th scope="col">Curso</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
+                        <th *ngIf="isAdmin || isCreator"  scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,9 +22,9 @@
                         <td>{{ u.consumidor.nombre }}</td>
                         <td>{{ u.curso.nombre }}</td>
                         <td>{{ u.activo ? 'Suscrito' : 'Anuló la suscripción' }}</td>
-                        <td>
+                        <td *ngIf="isAdmin || isCreator" >
                             <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop" (click)="getInscripcionByIdForSuscribirseDeNuevo(u.id)"><i
+                                data-bs-target="#staticBackdrop" *ngIf="isAdmin || isCreator"  (click)="getInscripcionByIdForSuscribirseDeNuevo(u.id)"><i
                                     class="fa-solid fa-hand-pointer"></i></button>
                             <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
                                 data-bs-target="#staticBackdrop" *ngIf="isAdmin || isCreator"  (click)="getInscripcionByIdForDelete(u.id)"><i
@@ -45,23 +45,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">
-                    {{ actionType === 'see' ? 'Curso Details' : (actionType === 'create' ? 'New Curso' : (actionType ===
+                    {{  actionType === 'create' ? 'New Inscripción' : (actionType ===
                     'update' ?
-                    'Update Curso' : 'Delete Curso')) }}
+                    'Update Inscripción' : 'Delete Inscripción') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div *ngIf="actionType === 'delete'">
-                    <label for="lblMessageDelete" class="form-label">¿Deseas anular la suscripción?</label>
+                    <label for="lblMessageDelete" class="form-label">¿Deseas anular la suscripción de {{inscripcionById.consumidor.nombre }} ?</label>
                 </div>
                 <div *ngIf="actionType === 'update'">
-                    <label for="lblMessageDelete" class="form-label">¿Deseas suscribirte de nuevo?</label>
+                    <label for="lblMessageDelete" class="form-label">¿Deseas agregar de nuevo a {{inscripcionById.consumidor.nombre }} ?</label>
                 </div>
                 <form *ngIf="actionType === 'create'" [formGroup]="inscripcionForm">
                     
                     <div class="row">
-
 
                         <div class="col-md-6">
                             <div class="mb-3">

@@ -35,8 +35,12 @@ public class JwtProvider {
     public String generateToken(Authentication authentication){
         UsuarioPrincipal usuarioPrincipal = (UsuarioPrincipal) authentication.getPrincipal();
         List<String> roles = usuarioPrincipal.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()); 
+        Integer id = usuarioPrincipal.getId();
+        String nombre = usuarioPrincipal.getNombre();
         return Jwts.builder().setSubject(usuarioPrincipal.getEmail())
                 .claim("roles", roles)
+                .claim("id", id)
+                .claim("nombre", nombre)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
                 .signWith(SignatureAlgorithm.HS512, secret.getBytes())

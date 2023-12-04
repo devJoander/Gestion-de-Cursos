@@ -4,8 +4,8 @@ import { user } from 'src/app/model/user/user';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RolesService } from 'src/app/services/roles/roles.service';
-import { inscripcion } from 'src/app/model/inscripcion/inscripcion';
 import { TokenService } from 'src/app/services/token/token.service';
+import { NgxToastService } from 'ngx-toast-notifier';
 
 @Component({
   selector: 'app-user',
@@ -45,8 +45,8 @@ export class UserComponent {
     private readonly fb: FormBuilder,
     private rolesService: RolesService,
     private tokenService: TokenService,
+    private ngxToastService: NgxToastService,
   ) {
-
   }
 
   ngOnInit(): void {
@@ -70,11 +70,12 @@ export class UserComponent {
   deleteUser() {
     const userId = this.userById.id;
     this.usersService.deleteUser(userId).subscribe({
-      next: (value) => {
+      next: (data) => {
         this.getAllUsers();
+        this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} se eliminó exitosamente`);
       },
-      error: (err) => {
-        console.error('Error fetching user:', err);
+      error:(err) =>{
+        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
       },
       complete() {
 
@@ -109,7 +110,6 @@ export class UserComponent {
         });
         this.setActionType('see');
         this.desableInputs();
-        // this.userForm.controls['name'].setValue(this.user.nombre);
       },
       error: (err) => {
         console.error('Error fetching user:', err);
@@ -119,6 +119,7 @@ export class UserComponent {
       },
     });
   }
+
   getUserByIdForUpdate(id: number) {
     this.usersService.getUserById(id).subscribe({
       next: (data) => {
@@ -172,16 +173,16 @@ export class UserComponent {
         console.log(data);
         this.getAllUsers();
         this.userForm.reset();
+        this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} fué creado exitosamente`);
       },
       error: (err) => {
-        console.error('Error creating user:', err);
+        this.ngxToastService.onWarning('Warning!', 'No se pudo crear el usuario: ' + err.message);
       },
       complete: () => {
         console.log('Create user request completed');
       },
     });
   }
-
 
   updateUser() {
     const userId = this.userById.id;
@@ -191,9 +192,10 @@ export class UserComponent {
       next: (data) => {
         this.getAllUsers();
         this.userForm.reset();
+        this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} se actualizó exitosamente`);
       },
-      error(err) {
-      
+      error:(err) =>{
+        this.ngxToastService.onWarning('Warning!', 'No se pudo crear el usuario: ' + err.message);
       },
       complete() {
 
@@ -211,7 +213,6 @@ export class UserComponent {
       roles: [user?.roles[0]?.rolNombre || '', [Validators.required]]
     });
   }
-
 
   cleanInputs(): void {
     this.userForm.reset();

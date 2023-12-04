@@ -1,0 +1,28 @@
+<app-nav></app-nav>
+<div class="container-fluid">
+  <h2>Inscripciones del Curso de: {{ inscripcions[0]?.curso?.nombre }}</h2> 
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre del Consumidor</th>
+                <th scope="col">Nombre del Consumidor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i of inscripcions">
+                <th scope="row">{{ i.id }}</th>
+                <td>{{ i.consumidor.nombre }} {{ i.consumidor.apellido }}</td>
+                <td>{{ i.activo ? 'Suscripción activa' : 'Suscripción inactiva' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <app-footer></app-footer>

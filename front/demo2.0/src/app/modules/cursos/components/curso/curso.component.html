@@ -25,12 +25,18 @@
               <td>
                 <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                   (click)="getCursoById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
+                  
                 <button *ngIf="isAdmin || isCreator"  type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                   (click)="getCursoByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
+
                 <button *ngIf="isAdmin || isCreator" type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                   (click)="getCursoByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
-                  <button type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                  (click)="getCursoByIdForDelete(u.id)"><i class="fa-solid fa-hand-pointer"></i></button>
+
+                  <button  *ngIf="isUser" type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  (click)="getCursoByIdSuscripcion(u.id)"><i class="fa-solid fa-hand-pointer"></i></button>
+                  
+                  <button   type="button" class="btn btn-info me-2" routerLink="/cursos/subs/{{u.id}}"
+                  (click)="getAllInscripcionesDeUnCurso(u.id)"><i class="fa-solid fa-info-circle"></i></button>
               </td>
             </tr>
           </tbody>
@@ -47,8 +53,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">
-            {{ actionType === 'see' ? 'Curso Details' : (actionType === 'create' ? 'New Curso' : (actionType === 'update' ?
-            'Update Curso' : 'Delete Curso')) }}
+            {{ actionType === 'see' ? 'Curso Details' : (actionType === 'suscripcion' ? 'Suscribirse al Curso' : (actionType === 'create' ? 'New Curso' : (actionType === 'update' ? 'Update Curso' : 'Delete Curso'))) }}
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -56,10 +61,22 @@
           <div *ngIf="actionType === 'delete'">
             <label for="lblMessageDelete" class="form-label">¿Deseas eliminar este registro?</label>
           </div>
-          <form *ngIf="actionType !== 'delete'" [formGroup]="cursoForm">
+          <div *ngIf="actionType === 'suscripcion'">
+            <label for="lblMessageDelete" class="form-label">¿Deseas suscribirte a este curso?</label>
+          </div>
+          <form [formGroup]="cursoForm" *ngIf="actionType !== 'delete' && actionType !== 'suscripcion'">
   
             <div class="row">
   
+              <div *ngIf="isId" class="col-md-12">
+                <div class="mb-3">
+                  <label for="exampleInputId" class="form-label">Id</label>
+                  <input type="text" formControlName="id"  class="form-control"
+                    id="exampleInputId" >
+                </div>
+  
+              </div> 
+
               <div class="col-md-12">
                 <div class="mb-3">
                   <label for="exampleInputNombre" class="form-label">Name</label>
@@ -95,13 +112,20 @@
           </form>
         </div>
         <div class="modal-footer">
+
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          
           <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveCurso()"
             *ngIf="actionType === 'create'">Save</button>
+
           <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateCurso()"
             *ngIf="actionType === 'update'">Update</button>
+
           <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger" (click)="deleteCurso()"
             *ngIf="actionType === 'delete'">Delete</button>
+
+            <button data-bs-dismiss="modal" id="btnSuscripcion" type="button" class="btn btn-success" (click)="suscripcionCurso()"
+            *ngIf="actionType === 'suscripcion'">Suscribir</button>
         </div>
       </div>
     </div>

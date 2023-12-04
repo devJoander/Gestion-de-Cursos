@@ -28,7 +28,8 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
+    @Column(unique = true)
     private String  rolNombre;
 
     @CreatedDate

@@ -33,11 +33,17 @@ $$ LANGUAGE plpgsql;
 --     'ROLE_CONSUMIDOR'
 -- );
 
--- INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
--- VALUES 
---   ('ROLE_ADMIN', 'A', NOW(), NOW()),
---   ('ROLE_CREADOR', 'A', NOW(), NOW()),
---   ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
+INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+SELECT 'ROLE_ADMIN', 'A', NOW(), NOW()
+WHERE NOT EXISTS (SELECT 1 FROM rol WHERE rol_nombre = 'ROLE_ADMIN');
+
+INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+SELECT 'ROLE_CREADOR', 'A', NOW(), NOW()
+WHERE NOT EXISTS (SELECT 1 FROM rol WHERE rol_nombre = 'ROLE_CREADOR');
+
+INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+SELECT 'ROLE_CONSUMIDOR', 'A', NOW(), NOW()
+WHERE NOT EXISTS (SELECT 1 FROM rol WHERE rol_nombre = 'ROLE_CONSUMIDOR');
 
 
 CREATE OR REPLACE FUNCTION crear_rol(

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { curso } from 'src/app/model/cursos/curso';
+import { inscripcion } from 'src/app/model/inscripcion/inscripcion';
 import { environment } from 'src/assets/environment/environment';
 
 @Injectable({
@@ -31,6 +32,10 @@ export class CursosService {
 
   public deleteCurso(id: number): Observable<curso>{
     return this.httpClient.delete<curso>(this.cursosUri + `eliminar/${id}`);
+  }
+
+  public getAllInscripcionesDeCurso(id: number): Observable<inscripcion[]> {
+    return this.httpClient.get<inscripcion[]>(this.insUri + `curso/${id}`);
   }
 }
 

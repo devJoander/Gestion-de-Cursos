@@ -8,13 +8,13 @@ import { TokenService } from 'src/app/services/token/token.service';
 })
 export class HomeComponent {
 
-  email?: string;
+  nombre?: string;
 
   constructor(private tokenService: TokenService) { }
 
   ngOnInit() {
    
-      this.email = this.tokenService.getEmail();
+      this.nombre = this.tokenService.getNombre();
    
   }
 

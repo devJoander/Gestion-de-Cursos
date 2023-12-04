@@ -3,7 +3,7 @@ import { user } from "../user/user";
  
 
 export interface curso {
-    id : number;
+    id: number;
     nombre: string;
     creador: user;
     estado: string;

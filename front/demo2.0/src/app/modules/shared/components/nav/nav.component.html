@@ -10,14 +10,19 @@
         <li  *ngIf="isAdmin || isCreator" class="nav-item">
           <a class="nav-link" *ngIf="isLogged"  href="/roles/list"><i class="fa-solid fa-users"></i> Roles</a>
         </li>
-
-        <li class="nav-item dropdown">
+        <li  class="nav-item">
+          <a class="nav-link" *ngIf="isLogged"  href="/cursos/list"><i class="fa-solid fa-book"></i> Cursos</a>
+        </li>
+        <li  class="nav-item">
+          <a class="nav-link" *ngIf="isLogged"  href="/inscripciones/list"><i class="fa-solid fa-check"></i> Incripciones</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" *ngIf="isLogged"  href="/cursos/list" data-bs-toggle="dropdown" role="button"
             aria-expanded="false"><i class="fa-solid fa-book"></i> Cursos</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" *ngIf="isLogged"  href="/inscripciones/list">Incripciones</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
       <form *ngIf="isLogged" class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

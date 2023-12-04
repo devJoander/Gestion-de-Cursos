@@ -33,7 +33,7 @@ export class TokenService {
 
 
   
-  public getEmail(): string {
+  public getNombre(): string {
     if ( !this.isLogged()){
       return ''
     }
@@ -41,8 +41,20 @@ export class TokenService {
     const payload = token.split('.')[1];
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
-    const email = values.sub;
-    return email;
+    const nombre = values.nombre;
+    return nombre;
+
+  }
+  public getId(): number {
+    if ( !this.isLogged()){
+      return 0;
+    }
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const id = values.id;
+    return id;
 
   }
 
@@ -61,6 +73,21 @@ export class TokenService {
     }
     return true;
   }
+
+  public isUser(): boolean {
+    if (!this.isLogged()) {
+      return false;
+    }
+    const token = this.getToken();
+    const payload = token.split('.')[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const roles = values.roles;
+    if (roles.indexOf('ROLE_CONSUMIDOR') < 0) {
+      return false;
+    }
+    return true;
+  }
   
   public isCreador(): boolean {
     if (!this.isLogged()) {
@@ -71,7 +98,6 @@ export class TokenService {
     const payloadDecoded = atob(payload);
     const values = JSON.parse(payloadDecoded);
     const roles = values.roles;
-    console.log('roles', roles);
     if (roles.indexOf('ROLE_CREADOR') < 0) {
       return false;
     }

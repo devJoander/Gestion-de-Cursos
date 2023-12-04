@@ -7,6 +7,7 @@ import { user } from 'src/app/model/user/user';
 import { CursosService } from 'src/app/services/cursos/cursos.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { TokenService } from 'src/app/services/token/token.service';
+import { NgxToastService } from 'ngx-toast-notifier';
 
 @Component({
   selector: 'app-inscripcion',
@@ -26,9 +27,9 @@ export class InscripcionComponent {
 
   inscripcionForm!: FormGroup;
 
-  actionType: 'create' | 'update' | 'delete' | 'see' = 'create';
+  actionType: 'create' | 'update' | 'delete'  = 'create';
 
-  setActionType(action: 'create' | 'update' | 'delete' | 'see') {
+  setActionType(action: 'create' | 'update' | 'delete' ) {
     this.actionType = action;
   }
 
@@ -37,13 +38,13 @@ export class InscripcionComponent {
     curso: false,
   };
 
-
   constructor(
     private readonly fb: FormBuilder,
     private inscripcionService: InscripcionService,
     private cursosService: CursosService,
     private usersService: UsersService,
     private tokenService: TokenService,
+    private ngxToastService: NgxToastService,
   ) {
 
   }
@@ -91,10 +92,10 @@ export class InscripcionComponent {
                 console.log('Inscripción creada exitosamente:', data);
                 this.getAllInscripciones();
                 // Realizar otras acciones después de crear la inscripción si es necesario
+                this.ngxToastService.onSuccess('Success!', `El usuario ${data.consumidor.nombre} suscribió al curso de  ${data.curso.nombre}`);
               },
-              error: (err) => {
-                console.error('Error al crear la inscripción:', err);
-                // Manejar errores
+              error:(err) =>{
+                this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
               },
               complete: () => {
                 console.log('Create inscripción request completed');
@@ -112,17 +113,20 @@ export class InscripcionComponent {
     );
   }
 
-
   suscribirseDeNuevo() {
+
     const inscripcionId = this.inscripcionById.id;
     const updatedInscripcionData = this.inscripcionForm.value;
 
     this.inscripcionService.suscribirseDeNuevo(inscripcionId, updatedInscripcionData).subscribe({
       next:(value)=>{
         this.getAllInscripciones();
-      },error(err) {
-          
-      },complete() {
+        this.ngxToastService.onSuccess('Success!', `El usuario ${value.consumidor.nombre} se volvió a suscribir`);
+      },
+      error:(err) =>{
+        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+      },
+        complete() {
           
       },
     })
@@ -133,14 +137,18 @@ export class InscripcionComponent {
     this.inscripcionService.cancelInscripcion(inscripcionId).subscribe({
       next:(value)=> {
           this.getAllInscripciones();
-      },error(err) {
-          
-      },complete() {
+          this.ngxToastService.onSuccess('Success!', `El usuario ${value.consumidor.nombre} anuló la suscripción al curso de  ${value.curso.nombre}`);
+        },
+        error:(err) =>{
+          this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+        },
+          complete() {
           
       },
     })
 
   }
+
   getAllUsers() {
     this.usersService.getAllUsers().subscribe({
       next: (value) => {
@@ -208,12 +216,14 @@ export class InscripcionComponent {
     this.setActionType('create');
     this.enableInputs();
   }
+
   enableInputs() {
     this.readonlyFields = {
       consumidor: false,
       curso: false,
     };
   }
+  
   desableInputs() {
     this.readonlyFields = {
       consumidor: true,
