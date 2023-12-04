@@ -5,6 +5,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { inscripcion } from 'src/app/model/inscripcion/inscripcion';
+import { TokenService } from 'src/app/services/token/token.service';
 
 @Component({
   selector: 'app-user',
@@ -36,16 +37,21 @@ export class UserComponent {
 
   rolesList: roles[] = [];
 
+  isAdmin = false;
+  isCreator = false;
+
   constructor(
     private usersService: UsersService,
     private readonly fb: FormBuilder,
     private rolesService: RolesService,
-    
+    private tokenService: TokenService,
   ) {
 
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isCreator = this.tokenService.isCreador();
     this.getAllUsers();
     this.userForm = this.initForm(this.userById);
     this.rolesService.getAllRoles().subscribe({

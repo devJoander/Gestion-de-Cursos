@@ -1,5 +1,5 @@
 <app-nav></app-nav>
-<div class="container-fluid">
+<div *ngIf="isAdmin || isCreator"  class="container-fluid">
   <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
 </div>
@@ -19,13 +19,13 @@
           <tr *ngFor="let u of rolesList">
             <th scope="row">{{ u.id }}</th>
             <td>{{ u.rolNombre }}</td>
-            <td>{{ u.estado ? 'Activo' : 'Inactivo'}}</td>
+            <td>{{ u.estado === 'A' ? 'Activo' : 'Inactivo'}}</td>
             <td>
               <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getRolById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              <button *ngIf="isAdmin || isCreator"  type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getRolByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
-              <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              <button *ngIf="isAdmin || isCreator"  type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getRolByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
             </td>
           </tr>

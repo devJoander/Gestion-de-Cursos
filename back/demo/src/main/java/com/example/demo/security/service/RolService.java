@@ -26,11 +26,11 @@ public class RolService {
         }
     }
 
-      public Rol obtenerRolPorId(int RolId) {
+      public Rol obtenerRolPorId(int rolId) {
         try {
-            Rol Rol = rolRepository.obtenerRolPorId(RolId);
+            Rol Rol = rolRepository.obtenerRolPorId(rolId);
             if (Rol == null) {
-                throw new IllegalArgumentException("El Rol con el id: " + RolId + " no existe");
+                throw new IllegalArgumentException("El Rol con el id: " + rolId + " no existe");
             }
             return Rol;
             

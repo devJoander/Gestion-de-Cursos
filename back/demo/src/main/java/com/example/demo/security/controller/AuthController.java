@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.excepciones.Mensaje;
 import com.example.demo.security.dto.LoginDto;
 import com.example.demo.security.entities.Jwt;
-import com.example.demo.security.entities.Usuario;
 import com.example.demo.security.service.AuthService;
 import javax.validation.Valid;
 

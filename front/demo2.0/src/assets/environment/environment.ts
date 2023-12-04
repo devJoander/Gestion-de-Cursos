@@ -5,4 +5,5 @@ export const environment = {
     rolUri: 'http://localhost:8080/roles/',
     cursoUri: 'http://localhost:8080/cursos/',
     insUri: 'http://localhost:8080/inscripcion/',
+    authURL: 'http://localhost:8080/auth/',
   };

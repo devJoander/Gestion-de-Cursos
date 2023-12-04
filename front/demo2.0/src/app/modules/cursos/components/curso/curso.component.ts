@@ -6,6 +6,7 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { inscripcion } from 'src/app/model/inscripcion/inscripcion';
 import { InscripcionService } from 'src/app/services/inscripciones/inscripcion.service';
+import { TokenService } from 'src/app/services/token/token.service';
 
 @Component({
   selector: 'app-curso',
@@ -27,6 +28,9 @@ export class CursoComponent {
     creador: false,
   };
 
+  isAdmin = false;
+  isCreator = false;
+
   cursoForm!: FormGroup;
 
   users: user[] = [];
@@ -41,6 +45,7 @@ export class CursoComponent {
     private readonly fb: FormBuilder,
     private usersService: UsersService,
     private inscripcionService: InscripcionService,
+    private tokenService: TokenService,
 
   ) {
 
@@ -48,6 +53,9 @@ export class CursoComponent {
 
   ngOnInit(): void {
     this.getAllCursos();
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isCreator = this.tokenService.isCreador();
+    console.log(this.isAdmin);
     this.cursoForm = this.initForm(this.cursoById);
     this.usersService.getAllUsers().subscribe({
       next: (value) => {

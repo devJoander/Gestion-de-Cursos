@@ -5,7 +5,7 @@
 //     padding: 0;
 //   }
 
- 
+
 
 //   .dropdown-menu-dark {
 //     position: absolute;
@@ -15,33 +15,42 @@
 //     margin-top: 0.5rem; /* Ajusta el valor según sea necesario */
 //     z-index: 999; /* Ajusta el valor según sea necesario */
 //   }
-
-.dropdown{
-    margin-right: 1vh;
+nav{
+  background: #272929;
 }
+
+.dropdown {
+  margin-right: 1vh;
+}
+
 .rounded-dropdown-toggle {
-     width: 50px; /* Ajusta el tamaño según tus necesidades */
-    height: 50px; /* Ajusta el tamaño según tus necesidades */
-    border-radius: 50%;
-    padding: 0;
-  }
-  
-  .rounded-circle {
-    width: 50px; /* Ajusta el tamaño según tus necesidades */
-    height: 50px; /* Ajusta el tamaño según tus necesidades */
-    border-radius: 50%;
-    padding: 0;
-  }
+  width: 50px;
+  /* Ajusta el tamaño según tus necesidades */
+  height: 50px;
+  /* Ajusta el tamaño según tus necesidades */
+  border-radius: 50%;
+  padding: 0;
+}
 
- 
+.rounded-circle {
+  width: 50px;
+  /* Ajusta el tamaño según tus necesidades */
+  height: 50px;
+  /* Ajusta el tamaño según tus necesidades */
+  border-radius: 50%;
+  padding: 0;
+}
 
-  .dropdown-menu-custom {
-    position: absolute;
-    transform: translateX(-100%);
-    top: calc(75% + 5px); /* Ajusta el valor según sea necesario */
-    left: 50%;
-    margin-top: 0.5rem; /* Ajusta el valor según sea necesario */
-    z-index: 999; /* Ajusta el valor según sea necesario */
-  }
-  
-  
+
+
+.dropdown-menu-custom {
+  position: absolute;
+  transform: translateX(-100%);
+  top: calc(75% + 5px);
+  /* Ajusta el valor según sea necesario */
+  left: 50%;
+  margin-top: 0.5rem;
+  /* Ajusta el valor según sea necesario */
+  z-index: 999;
+  /* Ajusta el valor según sea necesario */
+}

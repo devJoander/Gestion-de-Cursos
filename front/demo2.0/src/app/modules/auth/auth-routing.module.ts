@@ -1,15 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CursoComponent } from './components/curso/curso.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { LoginGuard as AuthGuard } from 'src/app/services/guard/login.guard';
 import { NotfoundComponent } from '../home/components/notfound/notfound.component';
+
 const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
-    data: { expectedRol: ['admin', 'user', 'creador'] }, 
     children: [
-      { path: 'list', component: CursoComponent }
+      { path: 'login', component: LoginComponent }
+    ]
+  },
+  {
+    path: '',
+    children: [
+      { path: 'register', component: RegisterComponent }
     ]
   },
   { path: '**', component: NotfoundComponent }
@@ -19,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CursosRoutingModule { }
+export class AuthRoutingModule { }

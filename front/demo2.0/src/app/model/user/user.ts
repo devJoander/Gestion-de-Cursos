@@ -15,3 +15,13 @@ export interface user {
     cursosCreados: curso[];
     cursosInscritos: inscripcion[];
 }
+
+export interface login {
+    email: string;
+    password: string;
+    token: string;
+}
+
+export interface jwt{
+    token: string;
+}

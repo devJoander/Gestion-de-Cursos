@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.excepciones.Mensaje;
 import com.example.demo.security.entities.Rol;
-import com.example.demo.security.entities.Rol;
 import com.example.demo.security.service.RolService;
 import java.util.List;
 import javax.validation.Valid;
@@ -40,9 +39,9 @@ public class RolController {
     }
 
     @GetMapping("/{rolId}")
-    public ResponseEntity<?> obtenerRolPorId(@PathVariable Integer RolId) {
+    public ResponseEntity<?> obtenerRolPorId(@PathVariable Integer rolId) {
         try {
-            Rol Rol = rolService.obtenerRolPorId(RolId);
+            Rol Rol = rolService.obtenerRolPorId(rolId);
             return new ResponseEntity<>(Rol, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(new Mensaje("El rol que buscas no existe"), HttpStatus.NOT_FOUND);

@@ -6,6 +6,7 @@ import { curso } from 'src/app/model/cursos/curso';
 import { user } from 'src/app/model/user/user';
 import { CursosService } from 'src/app/services/cursos/cursos.service';
 import { UsersService } from 'src/app/services/users/users.service';
+import { TokenService } from 'src/app/services/token/token.service';
 
 @Component({
   selector: 'app-inscripcion',
@@ -19,6 +20,9 @@ export class InscripcionComponent {
   inscripciones: inscripcion[] = [];
   cursos: curso[] = [];
   users: user[] = [];
+
+  isAdmin = false;
+  isCreator = false;
 
   inscripcionForm!: FormGroup;
 
@@ -39,12 +43,14 @@ export class InscripcionComponent {
     private inscripcionService: InscripcionService,
     private cursosService: CursosService,
     private usersService: UsersService,
-
+    private tokenService: TokenService,
   ) {
 
   }
 
   ngOnInit() {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isCreator = this.tokenService.isCreador();
     this.getAllInscripciones();
     this.getAllUsers();
     this.getAllCursos();

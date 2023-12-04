@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { roles } from 'src/app/model/roles/roles';
 import { RolesService } from 'src/app/services/roles/roles.service';
+import { TokenService } from 'src/app/services/token/token.service';
 
 @Component({
   selector: 'app-rol',
@@ -17,6 +18,9 @@ export class RolComponent {
     estado: false,
   };
 
+  isAdmin = false;
+  isCreator = false;
+
   rolForm!: FormGroup;
 
   actionType: 'create' | 'update' | 'delete' | 'see' = 'create';
@@ -30,9 +34,13 @@ export class RolComponent {
   constructor(
     private readonly fb: FormBuilder,
     private rolesService: RolesService,
+    private tokenService: TokenService,
+
   ) {}
 
   ngOnInit(): void {
+    this.isAdmin = this.tokenService.isAdmin();
+    this.isCreator = this.tokenService.isCreador();
     this.getAllRoles();
     this.rolForm = this.initForm(this.rolById);
   }
@@ -141,10 +149,9 @@ export class RolComponent {
   }
 
   updateRol() {
-    const RolId = this.rolById.id;
+    const rolId = this.rolById.id;
     const updatedRolData = this.rolForm.value;
-    updatedRolData.roles = updatedRolData.roles || [];
-    this.rolesService.updtadeRol(RolId, updatedRolData).subscribe({
+    this.rolesService.updtadeRol(rolId, updatedRolData).subscribe({
       next: (data) => {
         this.getAllRoles();
         this.rolForm.reset();

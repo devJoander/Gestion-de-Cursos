@@ -12,7 +12,8 @@ CREATE OR REPLACE FUNCTION get_All_Roles()
 RETURNS SETOF rol AS $$
 BEGIN
     RETURN QUERY
-    SELECT * FROM rol WHERE estado = 'A';
+    SELECT * FROM rol ORDER BY
+	id ASC;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -32,11 +33,11 @@ $$ LANGUAGE plpgsql;
 --     'ROLE_CONSUMIDOR'
 -- );
 
-INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
-VALUES 
-  ('ROLE_ADMIN', 'A', NOW(), NOW()),
-  ('ROLE_CREADOR', 'A', NOW(), NOW()),
-  ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
+-- INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
+-- VALUES 
+--   ('ROLE_ADMIN', 'A', NOW(), NOW()),
+--   ('ROLE_CREADOR', 'A', NOW(), NOW()),
+--   ('ROLE_CONSUMIDOR', 'A', NOW(), NOW());
 
 
 CREATE OR REPLACE FUNCTION crear_rol(
@@ -183,7 +184,8 @@ CREATE OR REPLACE FUNCTION obtener_todos_los_usuarios()
 RETURNS SETOF usuario AS $$
 BEGIN
     RETURN QUERY
-    SELECT * FROM usuario WHERE estado = 'A';
+    SELECT * FROM usuario WHERE estado = 'A' ORDER BY
+	id ASC;
 END;
 $$ LANGUAGE plpgsql;
 --- Eliminar usuario
@@ -226,7 +228,8 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION getAllcursos()
 RETURNS SETOF curso AS $$
 BEGIN
-    RETURN QUERY SELECT * FROM curso WHERE estado = 'A';
+    RETURN QUERY SELECT * FROM curso  ORDER BY
+	id ASC;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -356,7 +359,8 @@ CREATE OR REPLACE FUNCTION get_all_inscripciones()
 RETURNS SETOF inscripcion_curso AS $$
 BEGIN
     RETURN QUERY
-    SELECT * FROM inscripcion_curso;
+    SELECT * FROM inscripcion_curso ORDER BY
+	id ASC;
     -- SELECT * FROM inscripcion_curso WHERE activo = true;
 
 END;
