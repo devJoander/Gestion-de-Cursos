@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavComponent } from './components/nav/nav.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { Router, RouterLink } from '@angular/router';
+import {RouterModule} from '@angular/router';
 
 
 
@@ -12,7 +13,8 @@ import { Router, RouterLink } from '@angular/router';
     FooterComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     NavComponent,

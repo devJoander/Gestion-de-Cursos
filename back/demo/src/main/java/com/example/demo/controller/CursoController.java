@@ -33,10 +33,10 @@ public class CursoController {
             Curso curso = cursoService.crearCurso(cursoDTO.getNombre(), cursoDTO.getCreador());
             return new ResponseEntity<>(curso, HttpStatus.OK);
 
-        } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage().toString(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -59,10 +59,10 @@ public class CursoController {
         try {
             Curso curso = cursoService.getCursoById(id);
             return ResponseEntity.ok(curso);
-        } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage().toString(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -72,10 +72,10 @@ public class CursoController {
             Curso cursoActualizado = cursoService.updateCurso(cursoId, cursoRequest.getNombre(),
                     cursoRequest.getEstado());
             return new ResponseEntity<>(cursoActualizado, HttpStatus.OK);
-        } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(ex.getMessage().toString(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage().toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -84,10 +84,10 @@ public class CursoController {
         try {
             Curso cursoEliminado = cursoService.eliminarCurso(cursoId);
             return new ResponseEntity<>(cursoEliminado, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.BAD_REQUEST);
+         } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new Mensaje(e.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -44,6 +44,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     @Query(value = "SELECT * FROM obtener_todos_los_usuarios()", nativeQuery = true)
     public List<Usuario> getAllUsuarios();
 
+     @Query(value = "SELECT * FROM obtener_usuarios_con_rol_creador()", nativeQuery = true)
+    public List<Usuario> obtener_usuarios_con_rol_creador();
+
+      @Query(value = "SELECT * FROM obtener_usuarios_con_rol_consumidor()", nativeQuery = true)
+    public List<Usuario> obtener_usuarios_con_rol_consumidor();
+
     @Transactional
     @Query(value = "SELECT * FROM actualizar_usuario(:p_usuario_id, :p_nombre, :p_apellido, :p_email, :p_password, :p_estado)", nativeQuery = true)
     public Usuario actualizarUsuario(

@@ -60,6 +60,36 @@ public class UsuarioService {
         }
     }
 
+       public List<Usuario> obtenerTodosLosUsuariosCreadores() {
+        try {
+            
+            List<Usuario> usuarios = usuarioRepository.obtener_usuarios_con_rol_creador();
+            if (usuarios.isEmpty()) {
+                throw new IllegalArgumentException("No se encontraron usuarios creadores activos ");
+            }
+            return usuarios;
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException(ex.getMessage(), ex.getCause());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error " + e.getMessage(), e.getCause());
+        }
+    }
+
+       public List<Usuario> obtenerTodosLosUsuariosConsumidores() {
+        try {
+            
+            List<Usuario> usuarios = usuarioRepository.obtener_usuarios_con_rol_consumidor();
+            if (usuarios.isEmpty()) {
+                throw new IllegalArgumentException("No se encontraron usuarios consumidores activos ");
+            }
+            return usuarios;
+        } catch (RuntimeException ex) {
+            throw new IllegalArgumentException(ex.getMessage(), ex.getCause());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error " + e.getMessage(), e.getCause());
+        }
+    }
+
     public Usuario actualizarUsuario(Integer id, String nombre, String apellido, String email, String password, String estado) {
         try {
             if (!usuarioRepository.existsById(id)) {

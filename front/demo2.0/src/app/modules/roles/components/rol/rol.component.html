@@ -1,8 +1,8 @@
 <app-nav></app-nav>
-<div *ngIf="isAdmin || isCreator"  class="container-fluid">
+<!-- <div *ngIf="isAdmin || isCreator"  class="container-fluid">
   <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
-</div>
+</div> -->
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
@@ -76,6 +76,8 @@
                   <option value="A">Activo</option>
                   <option value="I">Inactivo</option>
                 </select>
+                <div *ngIf="rolForm.get('estado')?.touched && rolForm.get('estado')?.errors?.['required']"
+                class="alert alert-danger">The estado is required</div>
               </div>
             </div>
           </div>
@@ -83,9 +85,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveRol()"
+        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" [disabled]="!rolForm.valid" (click)="saveRol()"
           *ngIf="actionType === 'create'">Save</button>
-        <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateRol()"
+        <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" [disabled]="!rolForm.valid" (click)="updateRol()"
           *ngIf="actionType === 'update'">Update</button>
         <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger" (click)="deleteRol()"
           *ngIf="actionType === 'delete'">Delete</button>

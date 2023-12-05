@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { user } from 'src/app/model/user/user';
 import { UsersService } from 'src/app/services/users/users.service';
+import { NgxToastService } from 'ngx-toast-notifier';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private readonly fb: FormBuilder,
-
+    private ngxToastService: NgxToastService,
   ){}
   ngOnInit(): void {
     this.userForm = this.initForm(this.userById);
@@ -27,11 +28,11 @@ export class RegisterComponent implements OnInit {
     console.log(newUser)
     this.usersService.newUser(newUser).subscribe({
       next: (data) => {
-        console.log(data);
         this.userForm.reset();
+        this.ngxToastService.onSuccess('Success!', `${data.nombre} Acabas de crear una cuenta en Olimac`);
       },
-      error: (err) => {
-        console.error('Error creating user:', err);
+      error:(err) =>{
+        this.ngxToastService.onDanger('Warning!', 'No se pudo crear el usuario, el email ya existe');
       },
       complete: () => {
         console.log('Create user request completed');
@@ -41,10 +42,10 @@ export class RegisterComponent implements OnInit {
 
   initForm(user?: user): FormGroup {
     return this.fb.group({
-      nombre: [user?.nombre || '', [Validators.required, Validators.minLength(3)]],
-      apellido: [user?.apellido || '', [Validators.required, Validators.minLength(4)]],
-      email: [user?.email || '', [Validators.required, Validators.minLength(3)]],
-      password: [user?.password || '', [Validators.required, Validators.minLength(3)]],
+      nombre: [user?.nombre || '', [Validators.pattern('[a-zA-Z ]*') , Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      apellido: [user?.apellido || '', [ Validators.pattern('[a-zA-Z ]*') , Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
+      email: [user?.email || '', [ Validators.email, Validators.required, Validators.minLength(10), Validators.maxLength(30), ]],
+      password: [user?.password || '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)  ]],
       estado: ['A'],
     });
   }

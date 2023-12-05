@@ -16,6 +16,14 @@ export class UsersService {
     return this.httpClient.get<user[]>(this.userUri + 'todos');
   }
 
+  public getAllUsersCreadores(): Observable<user[]> {
+    return this.httpClient.get<user[]>(this.userUri + 'creadores');
+  }
+  
+  public getAllUsersConsumidores(): Observable<user[]> {
+    return this.httpClient.get<user[]>(this.userUri + 'consumidores');
+  }
+
   public getUserById(id: number): Observable<user> {
     return this.httpClient.get<user>(this.userUri + `${id}`);
   }

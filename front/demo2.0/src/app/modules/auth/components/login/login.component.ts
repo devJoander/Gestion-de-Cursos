@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { login, user } from 'src/app/model/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { TokenService } from 'src/app/services/token/token.service';
+import { NgxToastService } from 'ngx-toast-notifier';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private readonly fb: FormBuilder,
+    private ngxToastService: NgxToastService,
     ) { }
     
     ngOnInit() {
@@ -45,9 +47,10 @@ export class LoginComponent implements OnInit {
           this.tokenService.setToken(value.token);
           console.log(value)
           this.router.navigate(['/users/list']);
+          this.ngxToastService.onSuccess('Success!', `Login exitoso! ${value.email}`);
         },
-        error(err) {
-
+        error:(err) =>{
+          this.ngxToastService.onDanger('Warning!', 'Email o Password invalidos!, intentalo nuevamente');
         },
         complete() {
 
@@ -61,8 +64,8 @@ export class LoginComponent implements OnInit {
   }
   initForm(login?: login): FormGroup {
     return this.fb.group({
-      email: [login?.email || '', [Validators.required, Validators.minLength(3)]],
-      password: [login?.password || '', [Validators.required, Validators.minLength(3)]],
+      email: [login?.email || '', [Validators.required]],
+      password: [login?.password || '', [Validators.required]],
     });
   }
 

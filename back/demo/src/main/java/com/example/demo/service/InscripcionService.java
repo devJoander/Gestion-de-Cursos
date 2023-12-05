@@ -17,29 +17,35 @@ import com.example.demo.security.repository.UsuarioRepository;
 public class InscripcionService {
     
     @Autowired
-    InscripcionRepository InscripcionRepository;
+    InscripcionRepository inscripcionRepository;
  
     @Autowired
-    private CursoRepository cursoRepository;
+    CursoRepository cursoRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    UsuarioRepository usuarioRepository;
 
     public Inscripcion suscribirUsuarioACurso(Curso curso, Usuario usuario) {
         try {
             
-            boolean existeInscripcion = InscripcionRepository.existeInscripcion(curso.getId(), usuario.getId());
-         
+            boolean existeInscripcion = inscripcionRepository.existeInscripcion(curso.getId(), usuario.getId());
 
-             if (!cursoRepository.existsById(curso.getId())) {
+            String ids = curso.getCreador().getId().toString();
+            // Integer idCreador = Integer.parseInt(ids);
+            // boolean resultadoConsulta = inscripcionRepository.usuarioTieneSuscripcionACreador(usuario.getId(), idCreador);
+            // System.out.println("Resultado de la consulta: " + resultadoConsulta);
+            
+
+            if (!cursoRepository.existsById(curso.getId())) {
                 throw new IllegalArgumentException("El ID del curso no existe");
-            }if(!usuarioRepository.existsById(usuario.getId())){
+            }  if (!usuarioRepository.existsById(usuario.getId())) {
                 throw new IllegalArgumentException("El ID del usuario no existe.");
-            }if (existeInscripcion) {
+            }  if (existeInscripcion) {
                 throw new RuntimeException("El usuario ya se encuentra inscrito en este curso.");
-            }
-             else {
-                Inscripcion inscripcion = InscripcionRepository.crearInscripcion(curso.getId(), usuario.getId());
+            // } if (resultadoConsulta) {
+            //     throw new RuntimeException("El usuario ya se encuentra inscrito en un curso del creador: " + curso.getCreador().getNombre());
+            } else {
+                Inscripcion inscripcion = inscripcionRepository.crearInscripcion(curso.getId(), usuario.getId());
                 return inscripcion;
             }
         } catch (IllegalArgumentException ex) {
@@ -53,7 +59,7 @@ public class InscripcionService {
         try {
             // Verificar si el ID de inscripción es válido
             if (inscripcionId != null && inscripcionId > 0) {
-                Inscripcion inscripcion = InscripcionRepository.anularSubscripcion(inscripcionId);
+                Inscripcion inscripcion = inscripcionRepository.anularSubscripcion(inscripcionId);
                 if (inscripcion != null) {
                     return inscripcion;
                 } else {
@@ -73,7 +79,7 @@ public class InscripcionService {
         try {
             // Verificar si el ID de inscripción es válido
             if (inscripcionId != null && inscripcionId > 0) {
-                Inscripcion inscripcion = InscripcionRepository.suscribirseDenuevo(inscripcionId);
+                Inscripcion inscripcion = inscripcionRepository.suscribirseDenuevo(inscripcionId);
                 if (inscripcion != null) {
                     return inscripcion;
                 } else {
@@ -91,11 +97,11 @@ public class InscripcionService {
     
     public List<Inscripcion> getAllInscripciones() {
         try {
-            List<Inscripcion> Inscripcions = InscripcionRepository.getAllInscripciones();
+            List<Inscripcion> Inscripcions = inscripcionRepository.getAllInscripciones();
             if(Inscripcions.isEmpty()){
                 throw new IllegalArgumentException("No hay ninguna subscripcion");
             }
-            return InscripcionRepository.getAllInscripciones();
+            return inscripcionRepository.getAllInscripciones();
             
         } catch (RuntimeException ex) {
             throw new IllegalArgumentException(ex.getMessage().toString(), ex.getCause());
@@ -110,7 +116,7 @@ public class InscripcionService {
                 throw new IllegalArgumentException("El ID del curso no existe");
             }
 
-            List<Inscripcion> inscripciones = InscripcionRepository.getAllInscripcionesDeCurso(cursoId);
+            List<Inscripcion> inscripciones = inscripcionRepository.getAllInscripcionesDeCurso(cursoId);
 
             if (inscripciones.isEmpty()) {
                 throw new IllegalArgumentException("No hay inscripciones para el curso seleccionado");
@@ -127,11 +133,11 @@ public class InscripcionService {
 
      public Inscripcion getInscripcionesById(Integer inscripcionId) {
         try {
-            Inscripcion Inscripcion = InscripcionRepository.obtenerInscripcionPorId(inscripcionId);
+            Inscripcion Inscripcion = inscripcionRepository.obtenerInscripcionPorId(inscripcionId);
             if(Inscripcion == null){
                 throw new IllegalArgumentException("No existe una isncripción con el id proporcionado.");
             }
-            return InscripcionRepository.obtenerInscripcionPorId(inscripcionId);
+            return inscripcionRepository.obtenerInscripcionPorId(inscripcionId);
             
         }  catch (RuntimeException ex) {
             throw new IllegalArgumentException(ex.getMessage().toString(), ex.getCause());

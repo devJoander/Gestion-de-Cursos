@@ -104,7 +104,10 @@ export class RolComponent {
           estado: this.rolById.estado,
         });
         this.setActionType('update');
-        this.enableInputs();
+        this.readonlyFields = {
+          rolNombre: true,
+          estado: false,
+        };
       },
       error: (err) => {
         console.error('Error fetching Rol:', err);
@@ -171,7 +174,7 @@ export class RolComponent {
 
   initForm(roles?: roles): FormGroup {
     return this.fb.group({
-      rolNombre: [roles?.rolNombre || '', [Validators.required, Validators.minLength(3)]],
+      rolNombre: [roles?.rolNombre || '', [Validators.required]],
       estado: [roles?.estado || '', [Validators.required]],
     });
   }

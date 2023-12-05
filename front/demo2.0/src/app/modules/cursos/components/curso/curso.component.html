@@ -84,6 +84,12 @@
                     id="exampleInputNombre" aria-describedby="nombreHelp">
                   <div *ngIf="cursoForm.get('nombre')?.touched && cursoForm.get('nombre')?.errors?.['required']"
                     class="alert alert-danger">The name is required</div>
+                    <div *ngIf="cursoForm.get('nombre')?.touched && cursoForm.get('nombre')?.errors?.['minlength']"
+                  class="alert alert-danger">The nombre must be at least 4 characters long</div>
+                <div *ngIf="cursoForm.get('nombre')?.touched && cursoForm.get('nombre')?.errors?.['maxlength']"
+                  class="alert alert-danger">The nombre cannot exceed 50 characters</div>
+                  <div *ngIf="cursoForm.get('nombre')?.touched && cursoForm.get('nombre')?.errors?.['pattern']"
+                  class="alert alert-danger">The nombre cannot contain special characters</div>
                 </div>
   
               </div> 
@@ -95,6 +101,8 @@
                     aria-label="Default select example" multiple>
                     <option *ngFor="let us of users" [value]="us.id">{{ us.nombre }}</option>
                   </select>
+                  <div *ngIf="cursoForm.get('creador')?.touched && cursoForm.get('creador')?.errors?.['required']"
+                  class="alert alert-danger">The creador is required</div>
                 </div>
               </div>
   
@@ -106,6 +114,8 @@
                     <option value="A">Activo</option>
                     <option value="I">Inactivo</option>
                   </select>
+                  <div *ngIf="cursoForm.get('estado')?.touched && cursoForm.get('estado')?.errors?.['required']"
+                  class="alert alert-danger">The estado is required</div>
                 </div>
               </div>
             </div>
@@ -115,7 +125,7 @@
 
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           
-          <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveCurso()"
+          <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" [disabled]="!cursoForm.valid" (click)="saveCurso()"
             *ngIf="actionType === 'create'">Save</button>
 
           <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateCurso()"

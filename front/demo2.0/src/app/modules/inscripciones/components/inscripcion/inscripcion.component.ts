@@ -95,7 +95,11 @@ export class InscripcionComponent {
                 this.ngxToastService.onSuccess('Success!', `El usuario ${data.consumidor.nombre} suscribió al curso de  ${data.curso.nombre}`);
               },
               error:(err) =>{
-                this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+                const mensajeDeError = err.error instanceof ErrorEvent
+                ? `Error: ${err.error.mensaje}`
+                : `Error del servidor: ${err.status} - ${err.error.mensaje}`;
+    
+            this.ngxToastService.onDanger('Warning!', mensajeDeError);
               },
               complete: () => {
                 console.log('Create inscripción request completed');
@@ -124,7 +128,7 @@ export class InscripcionComponent {
         this.ngxToastService.onSuccess('Success!', `El usuario ${value.consumidor.nombre} se volvió a suscribir`);
       },
       error:(err) =>{
-        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+        this.ngxToastService.onDanger('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
       },
         complete() {
           
@@ -140,7 +144,7 @@ export class InscripcionComponent {
           this.ngxToastService.onSuccess('Success!', `El usuario ${value.consumidor.nombre} anuló la suscripción al curso de  ${value.curso.nombre}`);
         },
         error:(err) =>{
-          this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+          this.ngxToastService.onDanger('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
         },
           complete() {
           
@@ -150,7 +154,7 @@ export class InscripcionComponent {
   }
 
   getAllUsers() {
-    this.usersService.getAllUsers().subscribe({
+    this.usersService.getAllUsersConsumidores().subscribe({
       next: (value) => {
         this.users = value;
       },

@@ -7,7 +7,7 @@ import { NotfoundComponent } from '../home/components/notfound/notfound.componen
 const routes: Routes = [{
   path: '',
   canActivate: [AuthGuard],
-    data: { expectedRol: ['admin', 'creador'] }, 
+    data: { expectedRol: ['admin'] }, 
   children: [
     { path: 'list', component: UserComponent }
   ]

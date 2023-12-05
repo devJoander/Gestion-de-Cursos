@@ -64,7 +64,7 @@ export class CursoComponent {
     this.isCreator = this.tokenService.isCreador();
     console.log(this.isAdmin);
     this.cursoForm = this.initForm(this.cursoById);
-    this.usersService.getAllUsers().subscribe({
+    this.usersService.getAllUsersCreadores().subscribe({
       next: (value) => {
         this.users = value;
       },
@@ -84,7 +84,7 @@ export class CursoComponent {
         this.ngxToastService.onSuccess('Success!', `El curso de ${value.nombre} fué eliminado correctamente`);
       },
       error:(err) =>{
-        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el curso: ' + err.message);
+        this.ngxToastService.onDanger('Warning!', 'No se pudo eliminar el curso: ' + err.message);
       },
       complete() {
       },
@@ -231,7 +231,11 @@ export class CursoComponent {
         this.ngxToastService.onSuccess('Success!', `Te suscribiste al curso de ${value.curso.nombre}`);
       },
       error:(err) =>{
-        this.ngxToastService.onWarning('Warning!', 'No se pudo suscribir al curso: ' + err.message);
+        const mensajeDeError = err.error instanceof ErrorEvent
+            ? `Error: ${err.error.mensaje}`
+            : `Error del servidor: ${err.status} - ${err.error.mensaje}`;
+
+        this.ngxToastService.onDanger('Warning!', mensajeDeError);
       },
       complete: () => {
       },
@@ -251,7 +255,11 @@ export class CursoComponent {
             this.ngxToastService.onSuccess('Success!', `El curso de ${data.nombre} fué creado correctamente`);
           },
           error:(err) =>{
-            this.ngxToastService.onWarning('Warning!', 'No se pudo crear el curso: ' + err.message);
+            const mensajeDeError = err.error instanceof ErrorEvent
+            ? `Error: ${err.error.mensaje}`
+            : `Error del servidor: ${err.status} - ${err.error.mensaje}`;
+
+        this.ngxToastService.onDanger('Warning!', mensajeDeError);
           },
           complete: () => {
             console.log('Create curso request completed');
@@ -275,7 +283,7 @@ export class CursoComponent {
           this.ngxToastService.onSuccess('Success!', `Curso ${value.nombre} actualizado correctamente`);
         },
         error:(err) =>{
-          this.ngxToastService.onWarning('Warning!', 'No se pudo actualizar el curso: ' + err.message);
+          this.ngxToastService.onDanger('Warning!', 'No se pudo actualizar el curso: ' + err.message);
         },
       complete() {
           
@@ -302,7 +310,7 @@ export class CursoComponent {
   initForm(curso?: curso): FormGroup {
     return this.fb.group({
       id: [curso?.id || '',],
-      nombre: [curso?.nombre || '', [Validators.required, Validators.minLength(3)]],
+      nombre: [curso?.nombre || '', [Validators.pattern('[a-zA-Z ]*') , Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       estado: [curso?.estado || '', [Validators.required]],
       creador: [curso?.creador.id || '', [Validators.required]]
     });

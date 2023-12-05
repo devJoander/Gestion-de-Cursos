@@ -39,7 +39,7 @@ public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @NotNull(message="El campo nombre no puede ser nulo")
     @NotBlank(message = "El campo nombre no puede estar vacio")

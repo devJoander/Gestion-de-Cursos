@@ -1,7 +1,12 @@
 <app-nav></app-nav>
 <div class="container-fluid">
-  <h2>Inscripciones del Curso de: {{ inscripcions[0]?.curso?.nombre }}</h2> 
-    <div class="container-fluid">
+  <div class="container-fluid">
+        <h2 *ngIf="inscripcions && inscripcions.length > 0">
+          Inscripciones del Curso de: {{ inscripcions[0]?.curso?.nombre }}
+        </h2>
+        <h2 *ngIf="!inscripcions || inscripcions.length === 0">
+          No hay inscripciones para el curso seleccionado.
+        </h2>
       <div class="row">
         <div class="col-md-12">
           <table class="table table-bordered">

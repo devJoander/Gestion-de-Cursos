@@ -194,6 +194,35 @@ BEGIN
 	id ASC;
 END;
 $$ LANGUAGE plpgsql;
+------- obtener_usuarios_con_rol_creador
+CREATE OR REPLACE FUNCTION obtener_usuarios_con_rol_creador() 
+RETURNS SETOF usuario AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DISTINCT u.*
+    FROM usuario u
+    JOIN usuario_rol ur ON u.id = ur.usuario_id
+    JOIN rol r ON ur.rol_id = r.id
+    WHERE r.rol_nombre = 'ROLE_CREADOR' AND u.estado = 'A'
+    ORDER BY u.id ASC;
+END;
+$$ LANGUAGE plpgsql;
+
+------- obtener_usuarios_con_rol_consumidor
+CREATE OR REPLACE FUNCTION obtener_usuarios_con_rol_consumidor() 
+RETURNS SETOF usuario AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DISTINCT u.*
+    FROM usuario u
+    JOIN usuario_rol ur ON u.id = ur.usuario_id
+    JOIN rol r ON ur.rol_id = r.id
+    WHERE r.rol_nombre = 'ROLE_CONSUMIDOR' AND u.estado = 'A'
+    ORDER BY u.id ASC;
+END;
+$$ LANGUAGE plpgsql;
+
+
 --- Eliminar usuario
 CREATE OR REPLACE FUNCTION eliminar_usuario(p_usuario_id INT)
 RETURNS usuario AS $$
@@ -358,6 +387,42 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+    CREATE OR REPLACE FUNCTION usuario_tiene_suscripcion_a_creador(p_usuario_id INT, p_creador_id INT)
+    RETURNS BOOLEAN AS $$
+    DECLARE
+        tiene_suscripcion BOOLEAN;
+    BEGIN
+        SELECT EXISTS (
+            SELECT 1
+            FROM inscripcion_curso i
+            JOIN curso c ON i.curso_id = c.id
+            WHERE i.consumidor_id = p_usuario_id
+            AND c.creador_id = p_creador_id
+        ) INTO tiene_suscripcion;
+
+        RETURN tiene_suscripcion;
+    END;
+    $$ LANGUAGE plpgsql;
+
+----
+-- CREATE OR REPLACE FUNCTION usuario_tiene_suscripcion_a_creador(p_usuario_id INT, p_creador_id INT)
+-- RETURNS BOOLEAN AS $$
+
+-- BEGIN
+--     IF EXISTS (
+--         SELECT 1
+--         FROM inscripcion_curso i
+--         JOIN curso c ON i.curso_id = c.id
+--         WHERE i.consumidor_id = p_usuario_id
+--           AND c.creador_id = p_creador_id
+--     ) 
+--     THEN
+--     RETURN TRUE;
+--   ELSE
+--     RETURN FALSE;
+--   END IF;
+-- END;
+-- $$ LANGUAGE plpgsql;
 
 --- get All
 

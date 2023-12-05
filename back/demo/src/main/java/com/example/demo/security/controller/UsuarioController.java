@@ -29,8 +29,7 @@ public class UsuarioController {
   @Autowired
   UsuarioService usuarioService;
 
-
-  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")
   @GetMapping("/{usuarioId}")
   public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Integer usuarioId) {
     try {
@@ -43,7 +42,7 @@ public class UsuarioController {
     }
   }
 
-  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")
   @GetMapping("todos")
   public ResponseEntity<?> obtenerTodosLosUsuarios() {
     try {
@@ -52,12 +51,38 @@ public class UsuarioController {
       return new ResponseEntity<>(usuarios, HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(new Mensaje("No se encontraron usuarios activos"), HttpStatus.NOT_FOUND);
-    }catch (Exception e) {
+    } catch (Exception e) {
       return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.NOT_FOUND);
     }
   }
 
-  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  @GetMapping("creadores")
+  public ResponseEntity<?> obtenerTodosLosUsuariosCreadores() {
+    try {
+      List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuariosCreadores();
+      // usuarios.sort(Comparator.comparing(Usuario::getId));
+      return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    } catch (IllegalArgumentException e) {
+      return new ResponseEntity<>(new Mensaje("No se encontraron usuarios crseadores activos"), HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @GetMapping("consumidores")
+  public ResponseEntity<?> obtenerTodosLosUsuariosConsumidores() {
+    try {
+      List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuariosConsumidores();
+      // usuarios.sort(Comparator.comparing(Usuario::getId));
+      return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    } catch (IllegalArgumentException e) {
+      return new ResponseEntity<>(new Mensaje("No se encontraron usuarios consumidores activos"), HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+      return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+  }
+
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")
   @PostMapping("create")
   public ResponseEntity<?> insertarUsuario(@Valid @RequestBody Usuario usuario) {
     try {
@@ -70,7 +95,7 @@ public class UsuarioController {
     }
   }
 
-  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")
   @DeleteMapping("eliminar/{usuarioId}")
   public ResponseEntity<?> eliminarUsuario(@PathVariable Integer usuarioId) {
     try {
@@ -83,12 +108,12 @@ public class UsuarioController {
     }
   }
 
-  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")   
+  // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CONSUMIDOR', 'ROLE_CREADOR')")
   @PutMapping("actualizar/{id}")
   public ResponseEntity<?> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario usuario) {
     try {
       usuarioService.actualizarUsuario(id, usuario.getNombre(), usuario.getApellido(), usuario.getEmail(),
-           usuario.getPassword(), usuario.getEstado());
+          usuario.getPassword(), usuario.getEstado());
       return new ResponseEntity<>(usuario, HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(new Mensaje(e.getMessage()), HttpStatus.BAD_REQUEST);

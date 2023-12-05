@@ -2,25 +2,25 @@
     <div class="container-fluid">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/home/index" *ngIf="isLogged"><i class="fa-solid fa-house"></i> Home</a>
+          <a class="nav-link" routerLink="/home/index" *ngIf="isLogged"><i class="fa-solid fa-house"></i> Home</a>
         </li>
-        <li *ngIf="isAdmin || isCreator" class="nav-item">
-          <a class="nav-link" *ngIf="isLogged"  href="/users/list" ><i class="fa-solid fa-users"></i> Usuarios</a>
+        <li *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link" *ngIf="isLogged"  routerLink="/users/list" ><i class="fa-solid fa-users"></i> Usuarios</a>
         </li>
-        <li  *ngIf="isAdmin || isCreator" class="nav-item">
-          <a class="nav-link" *ngIf="isLogged"  href="/roles/list"><i class="fa-solid fa-users"></i> Roles</a>
-        </li>
-        <li  class="nav-item">
-          <a class="nav-link" *ngIf="isLogged"  href="/cursos/list"><i class="fa-solid fa-book"></i> Cursos</a>
+        <li  *ngIf="isAdmin" class="nav-item">
+          <a class="nav-link" *ngIf="isLogged"  routerLink="/roles/list"><i class="fa-solid fa-users"></i> Roles</a>
         </li>
         <li  class="nav-item">
-          <a class="nav-link" *ngIf="isLogged"  href="/inscripciones/list"><i class="fa-solid fa-check"></i> Incripciones</a>
+          <a class="nav-link" *ngIf="isLogged"  routerLink="/cursos/list"><i class="fa-solid fa-book"></i> Cursos</a>
+        </li>
+        <li  class="nav-item">
+          <a class="nav-link" *ngIf="isLogged"  routerLink="/inscripciones/list"><i class="fa-solid fa-check"></i> Incripciones</a>
         </li>
         <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" *ngIf="isLogged"  href="/cursos/list" data-bs-toggle="dropdown" role="button"
+          <a class="nav-link dropdown-toggle" *ngIf="isLogged"  routerLink="/cursos/list" data-bs-toggle="dropdown" role="button"
             aria-expanded="false"><i class="fa-solid fa-book"></i> Cursos</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" *ngIf="isLogged"  href="/inscripciones/list">Incripciones</a></li>
+            <li><a class="dropdown-item" *ngIf="isLogged"  routerLink="/inscripciones/list">Incripciones</a></li>
           </ul>
         </li> -->
       </ul>
@@ -28,8 +28,8 @@
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <button *ngIf="!isLogged" class="btn btn-success " href="/auth/login" type="button">
-        <a href="auth/login"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
+      <button *ngIf="!isLogged" class="btn btn-success " routerLink="/auth/login" type="button">
+        <a ><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
         </button>
     </div>
     <div  *ngIf="isLogged" class="dropdown">
@@ -37,7 +37,7 @@
         <i class="fa-solid fa-user"></i>
       </button>
       <ul  class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton2">
-        <li><a (click)="onLogOut()"  class="dropdown-item">Log out</a></li>
+        <li (click)="onLogOut()"><a  class="dropdown-item">Log out</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item">Separated link</a></li>
       </ul>

@@ -1,6 +1,6 @@
 <app-nav></app-nav>
-<div *ngIf="isAdmin || isCreator"  class="container-fluid">
-  <button type="button"  (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
+<div *ngIf="isAdmin || isCreator" class="container-fluid">
+  <button type="button" (click)="cleanInputs()" class="btn btn-primary" data-bs-toggle="modal"
     data-bs-target="#staticBackdrop"><i class="fa-solid fa-plus"></i> New</button>
 </div>
 <div class="container-fluid">
@@ -27,10 +27,12 @@
             <td>
               <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 (click)="getUserById(u.id)"><i class="fa-solid fa-magnifying-glass"></i></button>
-              <button *ngIf="isAdmin || isCreator"  type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                (click)="getUserByIdForUpdate(u.id)"><i class="fa-solid fa-pen"></i></button>
-              <button *ngIf="isAdmin || isCreator"  type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                (click)="getUserByIdForDelete(u.id)"><i class="fa-solid fa-trash"></i></button>
+              <button *ngIf="isAdmin || isCreator" type="button" class="btn btn-warning me-2" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" (click)="getUserByIdForUpdate(u.id)"><i
+                  class="fa-solid fa-pen"></i></button>
+              <button *ngIf="isAdmin || isCreator" type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" (click)="getUserByIdForDelete(u.id)"><i
+                  class="fa-solid fa-trash"></i></button>
             </td>
           </tr>
         </tbody>
@@ -67,6 +69,12 @@
                   id="exampleInputNombre" aria-describedby="nombreHelp">
                 <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['required']"
                   class="alert alert-danger">The name is required</div>
+                  <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['minlength']"
+             class="alert alert-danger">The nombre must be at least 4 characters long</div>
+        <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['maxlength']"
+             class="alert alert-danger">The nombre cannot exceed 50 characters</div>
+             <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['pattern']"
+                  class="alert alert-danger">The nombre cannot contain special characters</div>
               </div>
 
             </div>
@@ -77,19 +85,28 @@
                   id="exampleInputApellido" aria-describedby="apellidoHelp">
                 <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['required']"
                   class="alert alert-danger">The apellido is required</div>
+                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['minlength']"
+                  class="alert alert-danger">The apellido must be at least 4 characters long</div>
+                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['maxlength']"
+                  class="alert alert-danger">The apellido cannot exceed 50 characters</div>
+                  <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['pattern']"
+                  class="alert alert-danger">The apellido cannot contain special characters</div>
               </div>
             </div>
             <div class="col-md-12">
-
               <div class="mb-3">
-                <label for="exampleInputEmail" class="form-label">Email address</label>
-                <input type="email" formControlName="email" [readonly]="readonlyFields.email" class="form-control"
-                  id="exampleInputEmail" aria-describedby="emailHelp">
-                <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
-                  class="alert alert-danger">The email is required</div>
+                  <label for="exampleInputEmail" class="form-label">Email address</label>
+                  <input type="email" formControlName="email" [readonly]="readonlyFields.email" class="form-control"
+                         id="exampleInputEmail" aria-describedby="emailHelp">
+                  <!-- Validación para 'required' -->
+                  <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
+                       class="alert alert-danger">The email is required</div>
+                  <!-- Validación para 'email' -->
+                  <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']"
+                       class="alert alert-danger">Please enter a valid email address</div>
               </div>
-            </div>
-
+          </div>
+          
             <div class="col-md-12" *ngIf="actionType === 'create'">
               <div class="mb-3">
                 <label for="exampleInputPassword" class="form-label">Password</label>
@@ -97,10 +114,12 @@
                   class="form-control" id="exampleInputPassword">
                 <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']"
                   class="alert alert-danger">The pass is required</div>
+                  <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['minlength']"
+                  class="alert alert-danger">The password must be at least 4 characters long</div>
+                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['maxlength']"
+                  class="alert alert-danger">The apellido cannot exceed 50 characters</div>
               </div>
             </div>
-
-
             <div class="col-md-6" *ngIf="actionType !== 'update'">
               <div class="mb-3">
                 <label for="exampleInputRol" class="form-label">Rol</label>
@@ -108,6 +127,8 @@
                   aria-label="Default select example" multiple>
                   <option *ngFor="let rol of rolesList" [value]="rol">{{ rol.rolNombre }}</option>
                 </select>
+                <div *ngIf="userForm.get('roles')?.touched && userForm.get('roles')?.errors?.['required']"
+                class="alert alert-danger">The roles is required</div>
               </div>
             </div>
 
@@ -120,6 +141,8 @@
                   <option value="A">Activo</option>
                   <option value="I">Inactivo</option>
                 </select>
+                <div *ngIf="userForm.get('estado')?.touched && userForm.get('estado')?.errors?.['required']"
+                class="alert alert-danger">The estado is required</div>
               </div>
             </div>
           </div>
@@ -127,11 +150,11 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" (click)="saveUser()"
+        <button data-bs-dismiss="modal" id="btnSave" type="button" class="btn btn-primary" [disabled]="!userForm.valid" (click)="saveUser()"
           *ngIf="actionType === 'create'">Save</button>
         <button data-bs-dismiss="modal" id="btnUpdate" type="button" class="btn btn-warning" (click)="updateUser()"
           *ngIf="actionType === 'update'">Update</button>
-        <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger" (click)="deleteUser()"
+        <button data-bs-dismiss="modal" id="btnDelete" type="button" class="btn btn-danger"  (click)="deleteUser()"
           *ngIf="actionType === 'delete'">Delete</button>
       </div>
     </div>

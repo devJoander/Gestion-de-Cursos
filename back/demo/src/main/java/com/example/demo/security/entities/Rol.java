@@ -46,6 +46,4 @@ public class Rol {
     @Pattern(regexp = "[AI]", message = "El campo estado solo puede tener los valores: A Activo, I Inactivo")
     private String estado;
 
- 
-
 }

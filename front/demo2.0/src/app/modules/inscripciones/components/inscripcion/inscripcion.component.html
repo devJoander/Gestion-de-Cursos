@@ -69,6 +69,8 @@
                                     formControlName="consumidor" aria-label="Default select example" multiple>
                                     <option *ngFor="let us of users" [value]="us.id">{{ us.nombre }}</option>
                                 </select>
+                                <div *ngIf="inscripcionForm.get('consumidor')?.touched && inscripcionForm.get('consumidor')?.errors?.['required']"
+                  class="alert alert-danger">The consumidor is required</div>
                             </div>
                         </div>
 
@@ -79,6 +81,8 @@
                                     formControlName="curso" aria-label="Default select example" multiple>
                                     <option *ngFor="let c of cursos" [value]="c.id">{{ c.nombre }}</option>
                                 </select>
+                                <div *ngIf="inscripcionForm.get('curso')?.touched && inscripcionForm.get('curso')?.errors?.['required']"
+                                class="alert alert-danger">The curso is required</div>
                             </div>
                         </div>
 
@@ -88,7 +92,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button data-bs-dismiss="modal" type="button" class="btn btn-primary" (click)="newInscripcion()"
+                <button data-bs-dismiss="modal" type="button" class="btn btn-primary" [disabled]="!inscripcionForm.valid" (click)="newInscripcion()"
                     *ngIf="actionType === 'create'">Save</button>
                 <button data-bs-dismiss="modal" type="button" class="btn btn-warning" (click)="suscribirseDeNuevo()"
                     *ngIf="actionType === 'update'">Update</button>

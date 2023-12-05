@@ -25,12 +25,24 @@
                           class="form-control form-control-lg" id="nombre" name="nombre" type="text"   required/>
                           <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['required']"
                           class="alert alert-danger">The name is required</div>
+                          <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['minlength']"
+                          class="alert alert-danger">The nombre must be at least 4 characters long</div>
+                     <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['maxlength']"
+                          class="alert alert-danger">The nombre cannot exceed 50 characters</div>
+                          <div *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.errors?.['pattern']"
+                               class="alert alert-danger">The nombre cannot contain special characters</div>
                       </div>
                       <div class="col-md-6">
                         <input type="text" id="apellido" placeholder="Apellidos" formControlName="apellido"
                           name="apellido" class="form-control form-control-lg"  required />
                           <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['required']"
                           class="alert alert-danger">The apellido is required</div>
+                          <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['minlength']"
+                  class="alert alert-danger">The apellido must be at least 4 characters long</div>
+                <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['maxlength']"
+                  class="alert alert-danger">The apellido cannot exceed 50 characters</div>
+                  <div *ngIf="userForm.get('apellido')?.touched && userForm.get('apellido')?.errors?.['pattern']"
+                  class="alert alert-danger">The apellido cannot contain special characters</div>
                       </div>
                     </div>
                   </div>
@@ -45,6 +57,12 @@
                       class="form-control form-control-lg"  required />
                       <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
                       class="alert alert-danger">The email is required</div>
+                      <!-- Validación para 'required' -->
+                  <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['required']"
+                  class="alert alert-danger">The email is required</div>
+             <!-- Validación para 'email' -->
+             <div *ngIf="userForm.get('email')?.touched && userForm.get('email')?.errors?.['email']"
+                  class="alert alert-danger">Please enter a valid email address</div>
                     </div>
                   </div>
 
@@ -57,6 +75,10 @@
                           name="password" class="form-control form-control-lg" formControlName="password" />
                           <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['required']"
                           class="alert alert-danger">The pass is required</div>
+                          <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['minlength']"
+                  class="alert alert-danger">The password must be at least 4 characters long</div>
+                <div *ngIf="userForm.get('password')?.touched && userForm.get('password')?.errors?.['maxlength']"
+                  class="alert alert-danger">The apellido cannot exceed 50 characters</div>
                         </div>
                     </div>
 
@@ -65,7 +87,7 @@
                
 
                   <div class="pt-1 mb-4">
-                    <button type="button" class="btn btn-dark btn-lg btn-block" (click)="saveUser()">
+                    <button type="button" class="btn btn-dark btn-lg btn-block" [disabled]="!userForm.valid" (click)="saveUser()">
                         Registrar</button>
                 </div>
 

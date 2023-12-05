@@ -28,7 +28,7 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Intege
     @Query(value = "SELECT * FROM cancelar_inscripcion(:p_inscripcion_id);", nativeQuery = true)
     Inscripcion anularSubscripcion(@Param("p_inscripcion_id") Integer inscripcionId);
 
-     @Transactional
+    @Transactional
     @Query(value = "SELECT * FROM suscribirse_nuevamente(:p_inscripcion_id);", nativeQuery = true)
     Inscripcion suscribirseDenuevo(@Param("p_inscripcion_id") Integer inscripcionId);
 
@@ -36,6 +36,9 @@ public interface InscripcionRepository extends JpaRepository<Inscripcion, Intege
     @Query(value = "SELECT existe_inscripcion(:cursoId, :consumidorId)", nativeQuery = true)
     boolean existeInscripcion(@Param("cursoId") Integer cursoId, @Param("consumidorId") Integer consumidorId);
 
+    // @Query(value = "select * from usuario_tiene_suscripcion_a_creador(:p_usuario_id, :p_creador_id);", nativeQuery = true)
+    // boolean usuarioTieneSuscripcionACreador(@Param("p_usuario_id") Integer consumidorId, @Param("p_creador_id") Integer creadorId);
+    
     ///
     @Query(value = "SELECT * FROM get_all_inscripciones();", nativeQuery = true)
     List<Inscripcion> getAllInscripciones();

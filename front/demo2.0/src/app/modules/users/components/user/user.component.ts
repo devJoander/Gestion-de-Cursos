@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { roles } from 'src/app/model/roles/roles';
 import { user } from 'src/app/model/user/user';
 import { UsersService } from 'src/app/services/users/users.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, AbstractControl, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { TokenService } from 'src/app/services/token/token.service';
 import { NgxToastService } from 'ngx-toast-notifier';
@@ -74,8 +74,8 @@ export class UserComponent {
         this.getAllUsers();
         this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} se eliminó exitosamente`);
       },
-      error:(err) =>{
-        this.ngxToastService.onWarning('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
+      error: (err) => {
+        this.ngxToastService.onDanger('Warning!', 'No se pudo eliminar el usuario: ' + err.message);
       },
       complete() {
 
@@ -176,7 +176,7 @@ export class UserComponent {
         this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} fué creado exitosamente`);
       },
       error: (err) => {
-        this.ngxToastService.onWarning('Warning!', 'No se pudo crear el usuario: ' + err.message);
+        this.ngxToastService.onDanger('Warning!', 'No se pudo crear el usuario: ' + err.message);
       },
       complete: () => {
         console.log('Create user request completed');
@@ -194,8 +194,8 @@ export class UserComponent {
         this.userForm.reset();
         this.ngxToastService.onSuccess('Success!', `El usuario ${data.nombre} se actualizó exitosamente`);
       },
-      error:(err) =>{
-        this.ngxToastService.onWarning('Warning!', 'No se pudo crear el usuario: ' + err.message);
+      error: (err) => {
+        this.ngxToastService.onDanger('Warning!', 'No se pudo crear el usuario: ' + err.message);
       },
       complete() {
 
@@ -205,10 +205,10 @@ export class UserComponent {
 
   initForm(user?: user): FormGroup {
     return this.fb.group({
-      nombre: [user?.nombre || '', [Validators.required, Validators.minLength(3)]],
-      apellido: [user?.apellido || '', [Validators.required, Validators.minLength(4)]],
-      email: [user?.email || '', [Validators.required, Validators.minLength(3)]],
-      password: [user?.password || '', [Validators.required, Validators.minLength(3)]],
+      nombre: [user?.nombre || '', [Validators.pattern('[a-zA-Z ]*') , Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      apellido: [user?.apellido || '', [ Validators.pattern('[a-zA-Z ]*') , Validators.required, Validators.minLength(4), Validators.maxLength(50) ]],
+      email: [user?.email || '', [ Validators.email, Validators.required, Validators.minLength(10), Validators.maxLength(30), ]],
+      password: [user?.password || '', [Validators.required, Validators.minLength(3), Validators.maxLength(20)  ]],
       estado: [user?.estado || '', [Validators.required]],
       roles: [user?.roles[0]?.rolNombre || '', [Validators.required]]
     });
@@ -241,6 +241,27 @@ export class UserComponent {
       roles: true,
     };
   }
+
+
+  specialCharactersValidator(allowedCharacters: RegExp): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const value = control.value as string;
+
+    if (!value) {
+      // Si el campo está vacío, no aplicar la validación
+      return null;
+    }
+
+    if (!allowedCharacters.test(value)) {
+      // Si se encuentran caracteres no permitidos, devolver un error
+      return { 'specialCharacters': true };
+    }
+
+    // Si no hay caracteres no permitidos, la validación pasa
+    return null;
+  };
+}
+
 
 }
 
