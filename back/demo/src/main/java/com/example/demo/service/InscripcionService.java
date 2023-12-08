@@ -30,20 +30,21 @@ public class InscripcionService {
             
             boolean existeInscripcion = inscripcionRepository.existeInscripcion(curso.getId(), usuario.getId());
 
-            String ids = curso.getCreador().getId().toString();
-            // Integer idCreador = Integer.parseInt(ids);
-            // boolean resultadoConsulta = inscripcionRepository.usuarioTieneSuscripcionACreador(usuario.getId(), idCreador);
-            // System.out.println("Resultado de la consulta: " + resultadoConsulta);
-            
+            Curso curso1 = cursoRepository.findById(curso.getId()).get();
+            Usuario creador = curso1.getCreador();
+            Integer idCreador = creador.getId();
+            String nombreCreador = creador.getNombre();
 
+            boolean resultadoConsulta = inscripcionRepository.usuarioTieneSuscripcionACreador(usuario.getId(), idCreador);
+            
             if (!cursoRepository.existsById(curso.getId())) {
                 throw new IllegalArgumentException("El ID del curso no existe");
             }  if (!usuarioRepository.existsById(usuario.getId())) {
                 throw new IllegalArgumentException("El ID del usuario no existe.");
             }  if (existeInscripcion) {
                 throw new RuntimeException("El usuario ya se encuentra inscrito en este curso.");
-            // } if (resultadoConsulta) {
-            //     throw new RuntimeException("El usuario ya se encuentra inscrito en un curso del creador: " + curso.getCreador().getNombre());
+            } if (resultadoConsulta) {
+                throw new RuntimeException("El usuario ya se encuentra inscrito en un curso del creador: " + nombreCreador);
             } else {
                 Inscripcion inscripcion = inscripcionRepository.crearInscripcion(curso.getId(), usuario.getId());
                 return inscripcion;
