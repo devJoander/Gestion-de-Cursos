@@ -20,19 +20,6 @@ $$ LANGUAGE plpgsql;
 --
 -----------ROLES
 
--- INSERTAR ROLES
--- DROP FUNCTION IF EXISTS crear_rol(RolNombre, VARCHAR);
--- ----
--- -- Eliminar el tipo ENUM si existe
--- DROP TYPE IF EXISTS RolNombre;
-
--- Crear el nuevo tipo ENUM
--- CREATE TYPE RolNombre AS ENUM (
---     'ROLE_ADMIN',
---     'ROLE_CREADOR',
---     'ROLE_CONSUMIDOR'
--- );
-
 INSERT INTO rol (rol_nombre, estado, fe_creacion, fe_actualizacion)
 SELECT 'ROLE_ADMIN', 'A', NOW(), NOW()
 WHERE NOT EXISTS (SELECT 1 FROM rol WHERE rol_nombre = 'ROLE_ADMIN');
@@ -239,7 +226,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 ------------------------------------CURSOS------------
 ----crear
 CREATE OR REPLACE FUNCTION crear_curso(
@@ -403,26 +389,6 @@ $$ LANGUAGE plpgsql;
         RETURN tiene_suscripcion;
     END;
     $$ LANGUAGE plpgsql;
-
-----
--- CREATE OR REPLACE FUNCTION usuario_tiene_suscripcion_a_creador(p_usuario_id INT, p_creador_id INT)
--- RETURNS BOOLEAN AS $$
-
--- BEGIN
---     IF EXISTS (
---         SELECT 1
---         FROM inscripcion_curso i
---         JOIN curso c ON i.curso_id = c.id
---         WHERE i.consumidor_id = p_usuario_id
---           AND c.creador_id = p_creador_id
---     ) 
---     THEN
---     RETURN TRUE;
---   ELSE
---     RETURN FALSE;
---   END IF;
--- END;
--- $$ LANGUAGE plpgsql;
 
 --- get All
 

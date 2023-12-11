@@ -45,7 +45,7 @@ export class UserComponent {
     private readonly fb: FormBuilder,
     private rolesService: RolesService,
     private tokenService: TokenService,
-    private ngxToastService: NgxToastService,
+    private ngxToastService: NgxToastService, // npm install ngx-toastr --save --force
   ) {
   }
 

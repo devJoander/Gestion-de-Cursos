@@ -47,7 +47,6 @@ public class UsuarioController {
   public ResponseEntity<?> obtenerTodosLosUsuarios() {
     try {
       List<Usuario> usuarios = usuarioService.obtenerTodosLosUsuarios();
-      // usuarios.sort(Comparator.comparing(Usuario::getId));
       return new ResponseEntity<>(usuarios, HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       return new ResponseEntity<>(new Mensaje("No se encontraron usuarios activos"), HttpStatus.NOT_FOUND);

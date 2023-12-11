@@ -25,10 +25,6 @@ public interface RolRepository extends JpaRepository<Rol, Integer> {
     @Query(value = "SELECT * FROM crear_rol(:p_nombre, :p_estado);", nativeQuery = true)
     public Rol crearRol(@Param("p_nombre") String nombre, @Param("p_estado") String estado);
     
-    // @Query(value = "SELECT * FROM crear_rol(:p_nombre, :p_estado);", nativeQuery = true)
-    // public Rol crearRol(@Param("p_nombre") RolNombre nombre, @Param("p_estado") String estado);
-    
-
     @Transactional
     @Query(value = "SELECT * FROM actualizar_rol(:p_rol_id, :p_nombre, :p_estado)", nativeQuery = true)
     public Rol actualizarRol(@Param("p_rol_id") Integer id, @Param("p_nombre")  String nombre, @Param("p_estado") String estado);
