@@ -1,0 +1,12 @@
+version: '3'
+services:
+  front-angular:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: front-angular
+    ports:
+      - "4200:80"  # Mapea el puerto 80 del contenedor al puerto 4200 del host
+    restart: always
+    depends_on:
+      - back-spring-cursos  # Asegúrate de que tu backend esté en ejecución
