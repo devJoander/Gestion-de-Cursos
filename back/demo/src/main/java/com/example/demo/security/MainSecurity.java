@@ -17,7 +17,6 @@ import com.example.demo.security.jwt.JwtEntryPoint;
 import com.example.demo.security.jwt.JwtTokenFilter;
 import com.example.demo.security.service.UserDetailsServiceImpl;
 
-   
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

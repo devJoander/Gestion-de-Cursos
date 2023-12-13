@@ -11,7 +11,6 @@ import com.example.demo.repository.InscripcionRepository;
 import com.example.demo.security.entities.Usuario;
 import com.example.demo.security.repository.UsuarioRepository;
 
-
 @Service
 @Transactional
 public class InscripcionService {

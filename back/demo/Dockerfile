@@ -2,7 +2,8 @@
 FROM adoptopenjdk:11-jre-hotspot
 
 # Copia el archivo JAR de tu aplicación al contenedor
-COPY target/demo-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY "./target/demo-0.0.1-SNAPSHOT.jar" "/app/app.jar"
+COPY "./src/main/resources/funciones.sql" "/app/funciones.sql"
 
 # Establece el directorio de trabajo en /app
 WORKDIR /app
@@ -11,4 +12,4 @@ WORKDIR /app
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación Spring Boot
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

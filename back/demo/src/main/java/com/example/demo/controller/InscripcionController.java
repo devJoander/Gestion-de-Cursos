@@ -18,7 +18,6 @@ import com.example.demo.entities.Inscripcion;
 import com.example.demo.excepciones.Mensaje;
 import com.example.demo.service.InscripcionService;
 
-
 @RestController
 @RequestMapping("/inscripcion")
 @CrossOrigin(origins = "*")

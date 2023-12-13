@@ -10,7 +10,6 @@ import com.example.demo.entities.Curso;
 import com.example.demo.repository.CursoRepository;
 import com.example.demo.security.entities.Usuario;
 
-
 @Service
 @Transactional
 public class CursoService {

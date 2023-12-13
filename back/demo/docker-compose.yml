@@ -6,9 +6,9 @@ services:
     build: .
     ports:
       - "8080:8080"
-    networks:
-      - network-spring-cursos
-    restart: always
+    # networks:
+    #   - network-spring-cursos
+    # restart: always
     depends_on:
       - postgres-db
     environment:
@@ -20,6 +20,8 @@ services:
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
       JWT_SECRET: secret
       JWT_EXPIRATION: 36000
+    # command: ["sh", "-c", "java -jar app.jar && java -jar -Dloader.main=com.example.demo.DemoApplication app.jar"]
+
 
   postgres-db:
     image: postgres:latest
@@ -28,6 +30,6 @@ services:
       POSTGRES_DB: GestionDeCursos
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-    networks:
-      - network-spring-cursos
-    restart: always
+    # networks:
+    #   - network-spring-cursos
+    # restart: always

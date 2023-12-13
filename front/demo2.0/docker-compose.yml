@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: front-angular
+    container_name: front-angular-cursos
     ports:
       - "4200:80"  # Mapea el puerto 80 del contenedor al puerto 4200 del host
     restart: always
