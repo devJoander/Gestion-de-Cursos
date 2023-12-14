@@ -30,6 +30,17 @@ services:
       POSTGRES_DB: GestionDeCursos
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
+#     volumes:
+#       - postgres-data:/var/lib/postgresql/data
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+# volumes:
+#   postgres-data:
+    # volumes:
+    #   - ./funciones.sql:/docker-entrypoint-initdb.d/funciones.sql
     # networks:
     #   - network-spring-cursos
     # restart: always
+    # volumes:
+    #   - postgres-scripts:/docker-entrypoint-initdb.d
+ 
