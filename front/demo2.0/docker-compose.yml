@@ -1,12 +1,29 @@
-version: '3'
+version: '1'
 services:
   front-angular:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: cursos-front:1
+    build: .
     container_name: front-angular-cursos
     ports:
       - "4200:80"  # Mapea el puerto 80 del contenedor al puerto 4200 del host
-    restart: always
+# Esto indica que el puerto 4200 en tu sistema host se está mapeando al puerto 80 del contenedor. En otras palabras, cuando accedes a http://localhost:4200 en tu navegador, estás redirigiendo las solicitudes al puerto 80 dentro del contenedor front-angular-cursos.
+
+  nginx-server:
+    image: nginx:latest
+    container_name: nginx-cursos
+    ports:
+      - "8080:80"
+    # volumes:
+    #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - back-spring-cursos  # Asegúrate de que tu backend esté en ejecución
+      - front-angular
+# services:
+#   front-angular:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - 4200:80 # Mapea el puerto 80 del contenedor al puerto 4200 del host
+    # restart: always
+    # depends_on:
+    #   - back-spring-cursos  # Asegúrate de que tu backend esté en ejecución

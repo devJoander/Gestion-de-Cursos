@@ -1,4 +1,5 @@
-version: '1'
+version: '3.8'
+
 services:
   back-spring-cursos:
     image: cursos-back:1
@@ -6,11 +7,6 @@ services:
     build: .
     ports:
       - "8080:8080"
-    # networks:
-    #   - network-spring-cursos
-    # restart: always
-    depends_on:
-      - postgres-db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/GestionDeCursos
       SPRING_DATASOURCE_USERNAME: postgres
@@ -20,8 +16,6 @@ services:
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
       JWT_SECRET: secret
       JWT_EXPIRATION: 36000
-    # command: ["sh", "-c", "java -jar app.jar && java -jar -Dloader.main=com.example.demo.DemoApplication app.jar"]
-
 
   postgres-db:
     image: postgres:latest
@@ -30,17 +24,6 @@ services:
       POSTGRES_DB: GestionDeCursos
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-#     volumes:
-#       - postgres-data:/var/lib/postgresql/data
-#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-
-# volumes:
-#   postgres-data:
-    # volumes:
-    #   - ./funciones.sql:/docker-entrypoint-initdb.d/funciones.sql
-    # networks:
-    #   - network-spring-cursos
-    # restart: always
-    # volumes:
-    #   - postgres-scripts:/docker-entrypoint-initdb.d
- 
+    # depends_on:
+    #   - back-spring-cursos
+    restart: always

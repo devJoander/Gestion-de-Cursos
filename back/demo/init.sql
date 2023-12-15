@@ -5,6 +5,17 @@
 -- select * from inscripcion_curso
 -- SELECT * FROM USUARIO_ROL
 
+--   SELECT pg_sleep(10);
+-- Verifica si la base de datos ya existe
+SELECT datname FROM pg_database WHERE datname = 'GestionDeCursos';
+
+-- Si no existe, créala
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT datname FROM pg_database WHERE datname = 'GestionDeCursos') THEN
+    CREATE DATABASE GestionDeCursos;
+  END IF;
+END $$;
+
 ---------------------ROLES----------------------
 -- funcion para retornar los roles
 --
@@ -419,3 +430,4 @@ BEGIN
     RETURN inscribirse_nuevamente;
 END;
 $$ LANGUAGE plpgsql;
+ 
