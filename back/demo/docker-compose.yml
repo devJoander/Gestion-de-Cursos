@@ -24,6 +24,8 @@ services:
       POSTGRES_DB: GestionDeCursos
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-    # depends_on:
-    #   - back-spring-cursos
+    volumes:
+    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    depends_on:
+      - back-spring-cursos
     restart: always

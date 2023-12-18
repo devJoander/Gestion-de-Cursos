@@ -5,16 +5,24 @@
 -- select * from inscripcion_curso
 -- SELECT * FROM USUARIO_ROL
 
---   SELECT pg_sleep(10);
--- Verifica si la base de datos ya existe
-SELECT datname FROM pg_database WHERE datname = 'GestionDeCursos';
+-- Espera hasta que la base de datos esté disponible
+DO $$ BEGIN
+  PERFORM pg_sleep(40); -- Pausa de 2 segundos (ajusta según sea necesario)
+  IF NOT EXISTS (SELECT datname FROM pg_database WHERE datname = 'GestionDeCursos') THEN
+    RAISE NOTICE 'Esperando a que la base de datos esté disponible...';
+    PERFORM pg_sleep(5); -- Pausa adicional si es necesario
+  END IF;
+END $$;
 
--- Si no existe, créala
+-- Si no existe, crea la base de datos
 DO $$ BEGIN
   IF NOT EXISTS (SELECT datname FROM pg_database WHERE datname = 'GestionDeCursos') THEN
     CREATE DATABASE GestionDeCursos;
   END IF;
 END $$;
+
+-- Resto de tus scripts aquí
+
 
 ---------------------ROLES----------------------
 -- funcion para retornar los roles
